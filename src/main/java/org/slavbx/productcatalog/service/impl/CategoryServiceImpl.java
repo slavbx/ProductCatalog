@@ -1,10 +1,11 @@
-package org.slavbx.productcatalog.service;
+package org.slavbx.productcatalog.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.AlreadyExistsException;
 import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
+import org.slavbx.productcatalog.service.CategoryService;
 
 import java.util.List;
 

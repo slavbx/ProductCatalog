@@ -12,36 +12,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public class Category {
-    /**
-     * Идентификатор
-     */
+    @EqualsAndHashCode.Exclude
     private Long id;
-    /**
-     * Название
-     */
     @NonNull
     private String name;
-    /**
-     * Описание
-     */
+    @EqualsAndHashCode.Exclude
     private String desc;
-
-    @Override
-    public int hashCode() {
-        return getName().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        } else if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-        Category other = (Category) obj;
-        return other.getName().equals(this.getName());
-    }
 
     @Override
     public String toString() {

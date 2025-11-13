@@ -1,10 +1,11 @@
-package org.slavbx.productcatalog.service;
+package org.slavbx.productcatalog.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.AlreadyExistsException;
 import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
+import org.slavbx.productcatalog.service.BrandService;
 
 import java.util.List;
 

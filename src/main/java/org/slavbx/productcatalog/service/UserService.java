@@ -49,21 +49,10 @@ public interface UserService {
     User create(User user);
 
     /**
-     * Получение текущего аутентифицированного пользователя.
-     *
-     * @return объект User, представляющий текущего пользователя
-     */
-    User getCurrentUser();
-
-    /**
      * Возвращает список всех зарегистрированных пользователей.
      * @return список пользователей
      */
     List<User> findAllUsers();
-
-    void signIn(User user);
-
-    void signOut();
-
+        
     void resetPassword(String email);
 }

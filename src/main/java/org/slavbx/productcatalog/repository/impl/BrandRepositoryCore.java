@@ -1,6 +1,7 @@
-package org.slavbx.productcatalog.repository;
+package org.slavbx.productcatalog.repository.impl;
 
 import org.slavbx.productcatalog.model.Brand;
+import org.slavbx.productcatalog.repository.BrandRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +13,9 @@ import java.util.Optional;
  */
 public class BrandRepositoryCore implements BrandRepository {
     private Long lastId;
-    private final Map<Long, Brand> brands;
+    private final Map<Long, Brand> brands = new HashMap<>();
 
     public BrandRepositoryCore() {
-        this.brands = new HashMap<>();
         this.lastId = 0L;
     }
 

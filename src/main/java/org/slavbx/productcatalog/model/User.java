@@ -11,49 +11,14 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
-    /**
-     * Идентификатор
-     */
     private Long id;
-    /**
-     * Электронная почта
-     */
     private String email;
-    /**
-     * Пароль
-     */
+    @EqualsAndHashCode.Exclude
     private String password;
-    /**
-     * Имя пользователя
-     */
     private String name;
-    /**
-     * Уровень доступа пользователя
-     */
     private Level level;
-    /**
-     * Перечисление, представляющее уровень доступа пользователя
-     */
-    public enum Level {
-        USER, ADMIN
-    }
-
-    @Override
-    public int hashCode() {
-        return email.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        } else if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-        User other = (User) obj;
-        return other.getEmail().equals(this.getEmail());
-    }
 
     @Override
     public String toString() {

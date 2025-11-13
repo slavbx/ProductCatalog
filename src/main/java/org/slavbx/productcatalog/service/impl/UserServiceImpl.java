@@ -1,4 +1,4 @@
-package org.slavbx.productcatalog.service;
+package org.slavbx.productcatalog.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -6,6 +6,7 @@ import org.slavbx.productcatalog.exception.AlreadyExistsException;
 import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
+import org.slavbx.productcatalog.service.UserService;
 
 import java.util.List;
 
@@ -17,8 +18,6 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Setter
-    public User currentUser;
     private final UserRepository userRepository;
 
     /**
@@ -63,36 +62,8 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List<User> findAllUsers() {
         return userRepository.findAllUsers();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void signIn(User user) throws NotFoundException {
-        User existingUser = userRepository.findByEmail(user.getEmail()).orElseThrow(() -> new NotFoundException("User not found with email: " + user.getEmail()));
-        if (!existingUser.getPassword().equals(user.getPassword())) {
-            throw new NotFoundException("User with email: " + user.getEmail() + " wrong password");
-        }
-        this.setCurrentUser(existingUser);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void signOut() {
-        this.setCurrentUser(null);
     }
 
     /**

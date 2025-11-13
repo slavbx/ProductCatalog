@@ -1,6 +1,7 @@
-package org.slavbx.productcatalog.repository;
+package org.slavbx.productcatalog.repository.impl;
 
 import org.slavbx.productcatalog.model.User;
+import org.slavbx.productcatalog.repository.UserRepository;
 
 import java.util.*;
 
@@ -10,10 +11,9 @@ import java.util.*;
 public class UserRepositoryCore implements UserRepository {
     private Long lastId;
 
-    private final Map<Long, User> users;
+    private final Map<Long, User> users = new HashMap<>();
 
     public UserRepositoryCore() {
-        this.users = new HashMap<>();
         this.lastId = 0L;
     }
 
@@ -77,13 +77,4 @@ public class UserRepositoryCore implements UserRepository {
     public List<User> findAllUsers() {
         return new ArrayList<>(users.values());
     }
-
-//    private Long getIdByUser(User user) {
-//        for (Map.Entry<Long, User> entry: users.entrySet()) {
-//            if (entry.getValue().equals(user)) {
-//                return entry.getKey();
-//            }
-//        }
-//        return null;
-//    }
 }

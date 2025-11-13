@@ -15,59 +15,25 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Product {
-    /**
-     * Идентификатор
-     */
+
+    @EqualsAndHashCode.Exclude
     private Long id;
-    /**
-     * Название
-     */
     private String name;
-    /**
-     * Описание
-     */
+
+    @EqualsAndHashCode.Exclude
     private String desc;
-    /**
-     * Стоимость
-     */
     private BigDecimal price;
-    /**
-     * Дата создания
-     */
+
+    @EqualsAndHashCode.Exclude
     private LocalDate createDate;
-    /**
-     * Пользователь-продавец товара
-     */
     private User seller;
-    /**
-     * Категория, в которую попадает товар
-     */
     private Category category;
-    /**
-     * Бренд товара
-     */
     private Brand brand;
-    /**
-     * Наличие на складе
-     */
+
+    @EqualsAndHashCode.Exclude
     private Integer quantity;
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        } else if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-        Product other = (Product) obj;
-        return other.getName().equals(this.getName());
-    }
 
     @Override
     public String toString() {

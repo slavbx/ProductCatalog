@@ -1,6 +1,7 @@
-package org.slavbx.productcatalog.repository;
+package org.slavbx.productcatalog.repository.impl;
 
 import org.slavbx.productcatalog.model.Category;
+import org.slavbx.productcatalog.repository.CategoryRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +13,9 @@ import java.util.Optional;
  */
 public class CategoryRepositoryCore implements CategoryRepository {
     private Long lastId;
-    private final Map<Long, Category> categories;
+    private final Map<Long, Category> categories = new HashMap<>();
 
     public CategoryRepositoryCore() {
-        this.categories = new HashMap<>();
         this.lastId = 0L;
     }
 
