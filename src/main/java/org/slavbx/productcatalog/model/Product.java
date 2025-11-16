@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Product {
-
     @EqualsAndHashCode.Exclude
     private Long id;
     private String name;
@@ -27,13 +26,15 @@ public class Product {
     private BigDecimal price;
 
     @EqualsAndHashCode.Exclude
+    private Integer quantity;
+
+    @EqualsAndHashCode.Exclude
     private LocalDate createDate;
     private User seller;
     private Category category;
     private Brand brand;
 
-    @EqualsAndHashCode.Exclude
-    private Integer quantity;
+
 
     @Override
     public String toString() {

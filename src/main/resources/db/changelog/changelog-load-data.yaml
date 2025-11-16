@@ -1,0 +1,133 @@
+databaseChangeLog:
+- changeSet:
+      id: 1729329610709-1
+      author: slavbx
+      changes:
+          - loadData:
+                columns:
+                    - column:
+                          header: id
+                          name: id
+                          type: NUMERIC
+                    - column:
+                          header: email
+                          name: email
+                          type: STRING
+                    - column:
+                          header: password
+                          name: password
+                          type: STRING
+                    - column:
+                          header: name
+                          name: name
+                          type: STRING
+                    - column:
+                          header: level
+                          name: level
+                          type: STRING
+                commentLineStartsWith: '#'
+                encoding: UTF-8
+                file: db/changelog/data/users.csv
+                quotchar: '"'
+                separator: ','
+                tableName: users
+                schemaName: pc_schema
+- changeSet:
+    id: 1729329610709-2
+    author: slavbx
+    changes:
+    - loadData:
+        columns:
+        - column:
+            header: id
+            name: id
+            type: NUMERIC
+        - column:
+            header: name
+            name: name
+            type: STRING
+        - column:
+            header: description
+            name: description
+            type: STRING
+        commentLineStartsWith: '#'
+        encoding: UTF-8
+        file: db/changelog/data/brands.csv
+        quotchar: '"'
+        separator: ','
+        tableName: brands
+        schemaName: pc_schema
+- changeSet:
+    id: 1729329610709-3
+    author: slavbx
+    changes:
+      - loadData:
+          columns:
+            - column:
+                header: id
+                name: id
+                type: NUMERIC
+            - column:
+                header: name
+                name: name
+                type: STRING
+            - column:
+                header: description
+                name: description
+                type: STRING
+          commentLineStartsWith: '#'
+          encoding: UTF-8
+          file: db/changelog/data/categories.csv
+          quotchar: '"'
+          separator: ','
+          tableName: categories
+          schemaName: pc_schema
+- changeSet:
+    id: 1729329610709-4
+    author: slavbx
+    changes:
+      - loadData:
+          columns:
+            - column:
+                header: id
+                name: id
+                type: NUMERIC
+            - column:
+                header: name
+                name: name
+                type: STRING
+            - column:
+                header: description
+                name: description
+                type: STRING
+            - column:
+                header: price
+                name: price
+                type: NUMERIC(20,2)
+            - column:
+                header: quantity
+                name: quantity
+                type: NUMERIC
+            - column:
+                header: create_date
+                name: create_date
+                type: STRING
+            - column:
+                header: user_id
+                name: user_id
+                type: NUMERIC
+            - column:
+                header: category_id
+                name: category_id
+                type: NUMERIC
+            - column:
+                header: brand_id
+                name: brand_id
+                type: NUMERIC
+          commentLineStartsWith: '#'
+          encoding: UTF-8
+          file: db/changelog/data/products.csv
+          quotchar: '"'
+          separator: ','
+          tableName: products
+          schemaName: pc_schema

@@ -13,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class User {
+    @EqualsAndHashCode.Exclude
     private Long id;
     private String email;
     @EqualsAndHashCode.Exclude
