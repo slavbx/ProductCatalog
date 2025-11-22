@@ -1,0 +1,228 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1729329304659-1
+      author: slavbx
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: users_pkey
+                  name: id
+                  type: BIGINT
+                  remarks: Идентификатор пользователя
+              - column:
+                  constraints:
+                    nullable: false
+                    uniqueConstraintName: users_unique_email
+                    unique: true
+                  name: email
+                  type: VARCHAR(255)
+                  remarks: Email пользователя
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(255)
+                  remarks: Пароль пользователя
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+                  remarks: Имя пользователя
+              - column:
+                  constraints:
+                    nullable: false
+                  name: level
+                  type: VARCHAR(255)
+                  remarks: Роль пользователя
+            tableName: users
+            remarks: Таблица для хранения пользователей
+            schemaName: pc_schema
+  - changeSet:
+      id: 1729329304659-2
+      author: slavbx
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: brands_pkey
+                  name: id
+                  type: BIGINT
+                  remarks: Идентификатор бренда
+              - column:
+                  constraints:
+                    nullable: false
+                    uniqueConstraintName: brands_unique_name
+                    unique: true
+                  name: name
+                  type: VARCHAR(255)
+                  remarks: Название бренда
+              - column:
+                  constraints:
+                    nullable: true
+                  name: description
+                  type: VARCHAR(255)
+                  remarks: Описание бренда
+            tableName: brands
+            remarks: Таблица для хранения брендов
+            schemaName: pc_schema
+  - changeSet:
+      id: 1729329304659-3
+      author: slavbx
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: categories_pkey
+                  name: id
+                  type: BIGINT
+                  remarks: Идентификатор категории
+              - column:
+                  constraints:
+                    nullable: false
+                    uniqueConstraintName: categories_unique_name
+                    unique: true
+                  name: name
+                  type: VARCHAR(255)
+                  remarks: Название категории
+              - column:
+                  constraints:
+                    nullable: true
+                  name: description
+                  type: VARCHAR(255)
+                  remarks: Описание категории
+            tableName: categories
+            remarks: Таблица для хранения категорий
+            schemaName: pc_schema
+  - changeSet:
+      id: 1729329304659-4
+      author: slavbx
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: products_pkey
+                  name: id
+                  type: BIGINT
+                  remarks: Идентификатор товара
+              - column:
+                  constraints:
+                    nullable: false
+                    uniqueConstraintName: products_unique_name
+                    unique: true
+                  name: name
+                  type: VARCHAR(255)
+                  remarks: Название товара
+              - column:
+                  constraints:
+                    nullable: true
+                  name: description
+                  type: VARCHAR(255)
+                  remarks: Описание товара
+              - column:
+                  constraints:
+                    nullable: true
+                  name: price
+                  type: NUMERIC(20, 2)
+                  remarks: Цена товара
+              - column:
+                  constraints:
+                    nullable: true
+                  name: quantity
+                  type: BIGINT
+                  remarks: Количество товара
+              - column:
+                  constraints:
+                    nullable: true
+                  name: create_date
+                  type: VARCHAR(255)
+                  remarks: Дата создания товара
+              - column:
+                  constraints:
+                    nullable: true
+                  name: user_id
+                  type: BIGINT
+                  remarks: Идентификатор продавца
+              - column:
+                  constraints:
+                    nullable: true
+                  name: category_id
+                  type: BIGINT
+                  remarks: Идентификатор категории
+              - column:
+                  constraints:
+                    nullable: true
+                  name: brand_id
+                  type: BIGINT
+                  remarks: Идентификатор бренда
+            tableName: products
+            remarks: Таблица хранения товаров
+            schemaName: pc_schema
+  - changeSet:
+      id: 1729329304659-5
+      author: slavbx
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: products
+            baseTableSchemaName: pc_schema
+            constraintName: fk_products_user_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: users
+            referencedTableSchemaName: pc_schema
+            validate: true
+  - changeSet:
+      id: 1729329304659-6
+      author: slavbx
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: brand_id
+            baseTableName: products
+            baseTableSchemaName: pc_schema
+            constraintName: fk_products_brand_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: brands
+            referencedTableSchemaName: pc_schema
+            validate: true
+  - changeSet:
+      id: 1729329304659-7
+      author: slavbx
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: products
+            baseTableSchemaName: pc_schema
+            constraintName: fk_products_category_id
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: categories
+            referencedTableSchemaName: pc_schema
+            validate: true

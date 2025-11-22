@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3345345
+      author: slavbx
+      changes:
+        - sql:
+            sql: |
+              SELECT setval('pc_schema.users_id_seq', COALESCE(MAX(id), 2)) FROM pc_schema.users;
+              SELECT setval('pc_schema.brands_id_seq', COALESCE(MAX(id), 7)) FROM pc_schema.brands;
+              SELECT setval('pc_schema.categories_id_seq', COALESCE(MAX(id), 5)) FROM pc_schema.categories;
+              SELECT setval('pc_schema.products_id_seq', COALESCE(MAX(id), 5)) FROM pc_schema.products;

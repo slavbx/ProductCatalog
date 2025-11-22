@@ -1,10 +1,8 @@
 package org.slavbx.productcatalog;
 
+import org.slavbx.productcatalog.repository.DatabaseProvider;
 import org.slavbx.productcatalog.repository.UserRepository;
-import org.slavbx.productcatalog.repository.impl.BrandRepositoryCore;
-import org.slavbx.productcatalog.repository.impl.CategoryRepositoryCore;
-import org.slavbx.productcatalog.repository.impl.ProductRepositoryCore;
-import org.slavbx.productcatalog.repository.impl.UserRepositoryCore;
+import org.slavbx.productcatalog.repository.impl.*;
 import org.slavbx.productcatalog.security.AuthenticationService;
 import org.slavbx.productcatalog.security.impl.AuthenticationServiceImpl;
 import org.slavbx.productcatalog.service.*;
@@ -22,14 +20,14 @@ public class Main {
      * @param args не используется
      */
     public static void main(String[] args) {
-        final UserRepository userRepository = new UserRepositoryCore();
+        System.setProperty("env", "dev");
+        final UserRepository userRepository = new UserRepositoryJdbc();
         final UserService userService = new UserServiceImpl(userRepository);
         final AuthenticationService authService = new AuthenticationServiceImpl(userRepository);
-        final CategoryService categoryService = new CategoryServiceImpl(new CategoryRepositoryCore());
-        final ProductService productService = new ProductServiceImpl(new ProductRepositoryCore());
-        final BrandService brandService = new BrandServiceImpl(new BrandRepositoryCore());
-        DataInitializer dataInitializer = new DataInitializer(userService, categoryService, brandService, productService);
-        dataInitializer.init();
+        final CategoryService categoryService = new CategoryServiceImpl(new CategoryRepositoryJdbc());
+        final ProductService productService = new ProductServiceImpl(new ProductRepositoryJdbc());
+        final BrandService brandService = new BrandServiceImpl(new BrandRepositoryJdbc());
+        DatabaseProvider.initDatabase();
         ConsoleUI consoleUI = new ConsoleUI(authService, userService, categoryService, brandService, productService);
         consoleUI.start();
     }

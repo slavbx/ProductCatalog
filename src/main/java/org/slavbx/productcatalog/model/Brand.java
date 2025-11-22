@@ -14,6 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Brand {
+    @EqualsAndHashCode.Exclude
     private Long id;
     @NonNull
     @EqualsAndHashCode.Include

@@ -1,0 +1,4 @@
+"id","email","password","name","level"
+"1","admin@admin.com","admin","admin","ADMIN"
+"2","slav@slav.com","slav","slav","USER"
+

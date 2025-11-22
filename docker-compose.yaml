@@ -1,0 +1,10 @@
+services:
+  pc-postgres:
+    container_name: pc-postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: pc_db
+      POSTGRES_USER: slav
+      POSTGRES_PASSWORD: slav
+    ports:
+      - "5432:5432"
