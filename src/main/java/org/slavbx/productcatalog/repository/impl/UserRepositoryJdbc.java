@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import org.slavbx.productcatalog.exception.RepositoryException;
 import org.slavbx.productcatalog.model.Level;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.DatabaseProvider;
@@ -16,7 +17,7 @@ import java.util.Optional;
  */
 public class UserRepositoryJdbc implements UserRepository {
     @Override
-    public User save(User user) {
+    public User save(User user) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(SqlQueries.INSERT_USER);
             prep.setString(1, user.getPassword());
@@ -25,24 +26,24 @@ public class UserRepositoryJdbc implements UserRepository {
             prep.setString(4, user.getEmail());
             prep.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось сохранить пользователя " + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось сохранить пользователя " + e.getMessage(), e);
         }
         return user;
     }
 
     @Override
-    public void deleteByEmail(String email) {
+    public void deleteByEmail(String email) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.DELETE_USER_BY_EMAIL);
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось удалить пользователя"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось удалить пользователя"  + e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByEmail(String email) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_USER_BY_EMAIL);
             preparedStatement.setString(1, email);
@@ -51,13 +52,13 @@ public class UserRepositoryJdbc implements UserRepository {
                 return Optional.of(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть пользователя"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть пользователя"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> findByName(String name) {
+    public Optional<User> findByName(String name) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_USER_BY_NAME);
             preparedStatement.setString(1, name);
@@ -66,13 +67,13 @@ public class UserRepositoryJdbc implements UserRepository {
                 return Optional.of(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть пользователя"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть пользователя"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(Long id) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_USER_BY_ID);
             preparedStatement.setLong(1, id);
@@ -81,7 +82,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 return Optional.of(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть пользователя"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть пользователя"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -97,7 +98,7 @@ public class UserRepositoryJdbc implements UserRepository {
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<User> findAllUsers() throws RepositoryException {
         List<User> users = new ArrayList<>();
         try (Connection connection = DatabaseProvider.getConnection()) {
             Statement statement = connection.createStatement();
@@ -106,7 +107,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 users.add(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось найти пользователей"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть пользователей"  + e.getMessage(), e);
         }
         return users;
     }

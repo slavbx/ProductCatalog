@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import org.slavbx.productcatalog.exception.RepositoryException;
 import org.slavbx.productcatalog.model.*;
 import org.slavbx.productcatalog.repository.DatabaseProvider;
 import org.slavbx.productcatalog.repository.ProductRepository;
@@ -15,7 +16,7 @@ import java.util.Optional;
  */
 public class ProductRepositoryJdbc implements ProductRepository {
     @Override
-    public Product save(Product product) {
+    public Product save(Product product) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(SqlQueries.INSERT_PRODUCT);
             prep.setString(1, product.getName());
@@ -28,24 +29,24 @@ public class ProductRepositoryJdbc implements ProductRepository {
             if (product.getBrand() != null) prep.setLong(8, product.getBrand().getId());
             prep.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось сохранить товар " + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось сохранить товар " + e.getMessage(), e);
         }
         return product;
     }
 
     @Override
-    public void deleteByName(String name) {
+    public void deleteByName(String name) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.DELETE_PRODUCT_BY_NAME);
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось удалить товар"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось удалить товар"  + e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Product> findByName(String name) {
+    public Optional<Product> findByName(String name) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_PRODUCT_BY_NAME);
             preparedStatement.setString(1, name);
@@ -54,13 +55,13 @@ public class ProductRepositoryJdbc implements ProductRepository {
                 return Optional.of(mapResultSetToProduct(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть товар"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть товар"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<Product> findById(Long id) {
+    public Optional<Product> findById(Long id) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_PRODUCT_BY_ID);
             preparedStatement.setLong(1, id);
@@ -69,7 +70,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
                 return Optional.of(mapResultSetToProduct(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть товар"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть товар"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -80,7 +81,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAllProductsByUser(User user) {
+    public List<Product> findAllProductsByUser(User user) throws RepositoryException {
         List<Product> products = new ArrayList<>();
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_PRODUCTS);
@@ -90,7 +91,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
                 products.add(mapResultSetToProduct(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть товар"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть товары"  + e.getMessage(), e);
         }
         return products;
     }
