@@ -1,9 +1,8 @@
 package org.slavbx.productcatalog.repository.impl;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slavbx.productcatalog.TestContainerConfig;
+import org.slavbx.productcatalog.TestContainerTest;
 import org.slavbx.productcatalog.model.*;
 import org.slavbx.productcatalog.repository.ProductRepository;
 
@@ -14,7 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Тестирование ProductRepository")
-class ProductRepositoryJdbcTest {
+class ProductRepositoryJdbcTest extends TestContainerTest {
     ProductRepository productRepository = new ProductRepositoryJdbc();
     User user = User.builder()
             .id(2L)
@@ -45,13 +44,8 @@ class ProductRepositoryJdbcTest {
             .createDate(LocalDate.now())
             .build();
 
-
-    @BeforeEach
-    void setUp() {
-        TestContainerConfig.getJdbcUrl();
-    }
-
     @Test
+    @DisplayName("Проверка сохранения продукта")
     void save() {
         Product newproduct = productRepository.findByName("Накопитель").get();
         productRepository.deleteByName("Накопитель");
@@ -61,6 +55,7 @@ class ProductRepositoryJdbcTest {
     }
 
     @Test
+    @DisplayName("Проверка удаления продукта по названию")
     void deleteByName() {
         assertThat(productRepository.existsByName("Аккумулятор")).isTrue();
         productRepository.deleteByName("Аккумулятор");
@@ -68,21 +63,25 @@ class ProductRepositoryJdbcTest {
     }
 
     @Test
+    @DisplayName("Проверка поиска продукта по названию")
     void findByName() {
         assertThat(productRepository.findByName("Корпус ПК")).isEqualTo(Optional.of(product));
     }
 
     @Test
+    @DisplayName("Проверка поиска продукта по ID")
     void findById() {
         assertThat(productRepository.findById(1L)).isEqualTo(Optional.of(product));
     }
 
     @Test
+    @DisplayName("Проверка существования продукта по названию")
     void existsByName() {
         assertThat(productRepository.existsByName("Корпус ПК")).isTrue();
     }
 
     @Test
+    @DisplayName("Проверка получения всех продуктов пользователя")
     void findAllProductsByUser() {
         assertThat(productRepository.findAllProductsByUser(user).size()).isGreaterThan(1);
     }

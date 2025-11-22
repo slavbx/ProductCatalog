@@ -17,7 +17,17 @@ import java.util.Properties;
  */
 public class DatabaseProvider {
     private static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS %s";
-    private static final String RESOURCES_PATH = "src/main/resources/";
+    private static final String PROPERTY_PATH = "src/main/resources/application.properties";
+    private static final String TEST_PROPERTY_PATH = "src/test/resources/application.properties";
+    private static final String PROPERTY_DB_URL = "database.url";
+    private static final String PROPERTY_DB_NAME = "database.name";
+    private static final String PROPERTY_DB_USER = "database.username";
+    private static final String PROPERTY_DB_PSW = "database.password";
+    private static final String PROPERTY_LB_URL = "liquibase.url";
+    private static final String PROPERTY_LB_USER = "liquibase.username";
+    private static final String PROPERTY_LB_PSW = "liquibase.password";
+    private static final String PROPERTY_LB_SCHEMA = "liquibase.defaultSchemaName";
+    private static final String PROPERTY_LB_CHANGELOG = "liquibase.changeLogFile";
 
     /**
      * Предоставляет соединение с базой данных в зависимости от окружения (dev или test).
@@ -26,28 +36,30 @@ public class DatabaseProvider {
      */
     public static Connection getConnection() throws SQLException {
         Connection connection;
-            Properties properties = new Properties();
-            try {
-                InputStream in = Files.newInputStream(Paths.get(RESOURCES_PATH + "database.properties"));
-                properties.load(in);
-                if (System.getProperty("env").equalsIgnoreCase("dev")) {
-                    connection = DriverManager.getConnection(
-                            properties.getProperty("database.url"),
-                            properties.getProperty("database.username"),
-                            properties.getProperty("database.password")
-                    );
-                } else {
-                    String test_db = properties.getProperty("database-test.name");
-                    String test_url = "jdbc:postgresql://localhost:" + System.getProperty("test_port") + "/" + test_db + "?currentSchema=pc_schema";
-                    connection = DriverManager.getConnection(
-                            test_url,
-                            properties.getProperty("database-test.username"),
-                            properties.getProperty("database-test.password")
-                    );
-                }
-            } catch (Exception e) {
-                throw new SQLException("Connection to database failed");
+        Properties properties = new Properties();
+        String path = System.getProperty("env").equalsIgnoreCase("dev") ? PROPERTY_PATH : TEST_PROPERTY_PATH;
+        try {
+            InputStream in = Files.newInputStream(Paths.get(path));
+            properties.load(in);
+            if (System.getProperty("env").equalsIgnoreCase("dev")) {
+                connection = DriverManager.getConnection(
+                        properties.getProperty(PROPERTY_DB_URL),
+                        properties.getProperty(PROPERTY_DB_USER),
+                        properties.getProperty(PROPERTY_DB_PSW)
+                );
+            } else {
+                String test_url = "jdbc:postgresql://localhost:" + System.getProperty("test_port") + "/" +
+                        properties.getProperty(PROPERTY_DB_NAME) +
+                        "?currentSchema=pc_schema";
+                connection = DriverManager.getConnection(
+                        test_url,
+                        properties.getProperty(PROPERTY_DB_USER),
+                        properties.getProperty(PROPERTY_DB_PSW)
+                );
             }
+        } catch (Exception e) {
+            throw new SQLException("Connection to database failed");
+        }
         return connection;
     }
 
@@ -55,42 +67,44 @@ public class DatabaseProvider {
      * Инициализирует базу данных: создает схему и применяет изменения Liquibase.
      * @throws SQLException если при работе с базой данных возникла ошибка.
      */
-    public static void initDatabase()  {
+    public static void initDatabase() throws SQLException {
         Connection connection;
         Properties properties = new Properties();
-        try (InputStream in = Files.newInputStream(Paths.get(RESOURCES_PATH + "liquibase.properties"))) {
+        String path = System.getProperty("env").equalsIgnoreCase("dev") ? PROPERTY_PATH : TEST_PROPERTY_PATH;
+        try (InputStream in = Files.newInputStream(Paths.get(path))) {
             properties.load(in);
             if (System.getProperty("env").equalsIgnoreCase("dev")) {
                 connection = DriverManager.getConnection(
-                        properties.getProperty("liquibase.url"),
-                        properties.getProperty("liquibase.username"),
-                        properties.getProperty("liquibase.password")
+                        properties.getProperty(PROPERTY_LB_URL),
+                        properties.getProperty(PROPERTY_LB_USER),
+                        properties.getProperty(PROPERTY_LB_PSW)
                 );
             } else {
-                String test_db = properties.getProperty("database-test.name");
-                String test_url = "jdbc:postgresql://localhost:" + System.getProperty("test_port") + "/" + test_db;
+                String test_url = "jdbc:postgresql://localhost:" +
+                        System.getProperty("test_port") + "/" +
+                        properties.getProperty(PROPERTY_DB_NAME);
                 connection = DriverManager.getConnection(
                         test_url,
-                        properties.getProperty("database-test.username"),
-                        properties.getProperty("database-test.password")
+                        properties.getProperty(PROPERTY_LB_USER),
+                        properties.getProperty(PROPERTY_LB_PSW)
                 );
             }
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            database.setDefaultSchemaName(properties.getProperty("liquibase.defaultSchemaName"));
+            database.setDefaultSchemaName(properties.getProperty(PROPERTY_LB_SCHEMA));
 
             try (Statement statement = connection.createStatement()) {
-                String sql = String.format(CREATE_SCHEMA, properties.getProperty("liquibase.defaultSchemaName"));
+                String sql = String.format(CREATE_SCHEMA, properties.getProperty(PROPERTY_LB_SCHEMA));
                 statement.execute(sql);
             } catch (SQLException e) {
                 System.err.println("Error create default schema: " + e.getMessage());
             }
 
-            Liquibase liquibase = new Liquibase(properties.getProperty("liquibase.changeLogFile"),
+            Liquibase liquibase = new Liquibase(properties.getProperty(PROPERTY_LB_CHANGELOG),
                     new ClassLoaderResourceAccessor(), database);
             liquibase.update();
             connection.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SQLException("Initialising database failed");
         }
     }
 }

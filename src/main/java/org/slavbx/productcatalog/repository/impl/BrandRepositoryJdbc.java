@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import org.slavbx.productcatalog.exception.RepositoryException;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
 import org.slavbx.productcatalog.repository.DatabaseProvider;
@@ -15,31 +16,31 @@ import java.util.Optional;
  */
 public class BrandRepositoryJdbc implements BrandRepository {
     @Override
-    public Brand save(Brand brand) {
+    public Brand save(Brand brand) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(SqlQueries.INSERT_BRAND);
             prep.setString(1, brand.getName());
             prep.setString(2, brand.getDesc());
             prep.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось сохранить бренд " + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось сохранить бренд " + e.getMessage(), e);
         }
         return brand;
     }
 
     @Override
-    public void deleteByName(String name) {
+    public void deleteByName(String name) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.DELETE_BRAND_BY_NAME);
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось удалить бренд"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось удалить бренд"  + e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Brand> findByName(String name) {
+    public Optional<Brand> findByName(String name) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_BRAND_BY_NAME);
             preparedStatement.setString(1, name);
@@ -48,13 +49,13 @@ public class BrandRepositoryJdbc implements BrandRepository {
                 return Optional.of(mapResultSetToBrand(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть брэнд"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть бренд"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<Brand> findById(Long id) {
+    public Optional<Brand> findById(Long id) throws RepositoryException {
         try (Connection connection = DatabaseProvider.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_BRAND_BY_ID);
             preparedStatement.setLong(1, id);
@@ -63,7 +64,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
                 return Optional.of(mapResultSetToBrand(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось вернуть бренд"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть бренд"  + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -74,7 +75,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
     }
 
     @Override
-    public List<Brand> findAllBrands() {
+    public List<Brand> findAllBrands() throws RepositoryException {
         List<Brand> brands = new ArrayList<>();
         try (Connection connection = DatabaseProvider.getConnection()) {
             Statement statement = connection.createStatement();
@@ -83,7 +84,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
                 brands.add(mapResultSetToBrand(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println("Ошибка. Не удалось найти бренды"  + e.getMessage());
+            throw new RepositoryException("Ошибка. Не удалось вернуть бренды"  + e.getMessage(), e);
         }
         return brands;
     }
