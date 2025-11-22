@@ -29,3 +29,4 @@ Java version: 17.0.12
 ### Домашние задания
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/1"> Домашнее задание 1</a>
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/2"> Домашнее задание 2</a>
+- <a href ="https://github.com/slavbx/ProductCatalog/pull/2"> Домашнее задание 3</a>
