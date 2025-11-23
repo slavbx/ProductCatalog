@@ -1,0 +1,31 @@
+### Получить всех пользователей
+GET http://localhost:8080/productcatalog/users
+
+### Получить пользователя по ID
+GET http://localhost:8080/productcatalog/users/1
+
+### Получить пользователя по email
+GET http://localhost:8080/productcatalog/users/slav@slav.com
+
+### Создать пользователя
+POST http://localhost:8080/productcatalog/users
+Content-Type: application/json; charset=utf-8
+
+{
+  "email": "test@mail.com",
+  "password": "123456",
+  "name": "John Doe"
+}
+
+### Обновить пользователя
+PUT http://localhost:8080/productcatalog/users
+Content-Type: application/json; charset=utf-8
+
+{
+  "email": "test@mail.com",
+  "password": "newpassword1",
+  "name": "John Doe"
+}
+
+### Сбросить пароль
+PUT http://localhost:8080/productcatalog/users/test@mail.com/reset-password

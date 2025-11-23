@@ -37,8 +37,8 @@ public class Main {
             final BrandService brandService = ServiceFactory.getBrandService(repositoryType);
             final ProductService productService = ServiceFactory.getProductService(repositoryType);
             DatabaseProvider.initDatabase();
-            ConsoleUI consoleUI = new ConsoleUI(authService, userService, categoryService, brandService, productService);
-            consoleUI.start();
+            //ConsoleUI consoleUI = new ConsoleUI(authService, userService, categoryService, brandService, productService);
+            //consoleUI.start();
         } catch (Exception e) {
             throw new NotFoundException("Property not found");
         }

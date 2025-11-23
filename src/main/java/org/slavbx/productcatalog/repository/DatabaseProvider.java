@@ -37,10 +37,11 @@ public class DatabaseProvider {
     public static Connection getConnection() throws SQLException {
         Connection connection;
         Properties properties = new Properties();
-        String path = System.getProperty("env").equalsIgnoreCase("dev") ? PROPERTY_PATH : TEST_PROPERTY_PATH;
+
         try {
-            InputStream in = Files.newInputStream(Paths.get(path));
+            InputStream in = getPropertiesInputStream();
             properties.load(in);
+            Class.forName("org.postgresql.Driver");
             if (System.getProperty("env").equalsIgnoreCase("dev")) {
                 connection = DriverManager.getConnection(
                         properties.getProperty(PROPERTY_DB_URL),
@@ -70,9 +71,11 @@ public class DatabaseProvider {
     public static void initDatabase() throws SQLException {
         Connection connection;
         Properties properties = new Properties();
-        String path = System.getProperty("env").equalsIgnoreCase("dev") ? PROPERTY_PATH : TEST_PROPERTY_PATH;
-        try (InputStream in = Files.newInputStream(Paths.get(path))) {
+
+        try {
+            InputStream in = getPropertiesInputStream();
             properties.load(in);
+            Class.forName("org.postgresql.Driver");
             if (System.getProperty("env").equalsIgnoreCase("dev")) {
                 connection = DriverManager.getConnection(
                         properties.getProperty(PROPERTY_LB_URL),
@@ -106,5 +109,15 @@ public class DatabaseProvider {
         } catch (Exception e) {
             throw new SQLException("Initialising database failed");
         }
+    }
+
+    private static InputStream getPropertiesInputStream() throws Exception {
+        String path = System.getProperty("env").equalsIgnoreCase("dev") ? PROPERTY_PATH : TEST_PROPERTY_PATH;
+        InputStream classpathInput = DatabaseProvider.class.getClassLoader()
+                .getResourceAsStream("application.properties");
+        if (classpathInput != null) {
+            return classpathInput;
+        }
+        return Files.newInputStream(Paths.get(path));
     }
 }

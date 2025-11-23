@@ -1,0 +1,39 @@
+### Получить все продукты
+GET http://localhost:8080/productcatalog/products
+
+### Получить продукт по ID
+GET http://localhost:8080/productcatalog/products/1
+
+### Получить продукт по имени
+GET http://localhost:8080/productcatalog/products/Motorcycle-Helmet
+
+### Создать продукт
+POST http://localhost:8080/productcatalog/products
+Content-Type: application/json; charset=utf-8
+
+{
+  "name": "Motorcycle-Helmet",
+  "desc": "High-quality motorcycle helmet with safety certification",
+  "price": 299.99,
+  "quantity": 10,
+  "sellerEmail": "slav@slav.com",
+  "categoryName": "Auto",
+  "brandName": "Moto-Guzzi"
+}
+
+### Обновить продукт
+PUT http://localhost:8080/productcatalog/products
+Content-Type: application/json; charset=utf-8
+
+{
+  "name": "Motorcycle-Helmet",
+  "desc": "Updated description with better features",
+  "price": 279.99,
+  "quantity": 15,
+  "sellerEmail": "slav@slav.com",
+  "categoryName": "Auto",
+  "brandName": "Moto-Guzzi"
+}
+
+### Удалить продукт по имени
+DELETE http://localhost:8080/productcatalog/products/Motorcycle-Helmet
