@@ -1,0 +1,29 @@
+### Просмотр всех категорий
+GET http://localhost:8080/productcatalog/categories
+
+### Получение категории по ID
+GET http://localhost:8080/productcatalog/categories/1
+
+### Получение категории по имени
+GET http://localhost:8080/productcatalog/categories/Motorcycle-Types
+
+### Создание категории
+POST http://localhost:8080/productcatalog/categories
+Content-Type: application/json; charset=utf-8
+
+{
+  "name": "Sport-Bikes",
+  "desc": "Спортивные мотоциклы для трека и скоростной езды"
+}
+
+### Обновление категории
+PUT http://localhost:8080/productcatalog/categories
+Content-Type: application/json; charset=utf-8
+
+{
+  "name": "Sport-Bikes",
+  "desc": "Спортивные мотоциклы для трека и скоростной езды - обновленное описание"
+}
+
+### Удаление категории
+DELETE http://localhost:8080/productcatalog/categories/Sport-Bikes

@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteByName(String name) throws NotFoundException {
-        if (productRepository.existsByName(name)) {
+        if (!productRepository.existsByName(name)) {
             throw new NotFoundException("Product with name: " + name + " not found");
         }
         productRepository.deleteByName(name);

@@ -71,4 +71,15 @@ public class ServiceFactory {
             default -> throw new IllegalArgumentException("Unknown repository type");
         };
     }
+
+    /**
+     * Создает экземпляр AuditService
+     * @return новый экземпляр AuditService
+     */
+    public static AuditService getAuditService(RepositoryType repositoryType) {
+        return switch (repositoryType) {
+            case JDBC -> new AuditServiceImpl(new AuditRepositoryJdbc());
+            default -> throw new IllegalArgumentException("Unknown repository type");
+        };
+    }
 }

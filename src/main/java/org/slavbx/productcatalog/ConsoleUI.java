@@ -43,8 +43,8 @@ public class ConsoleUI {
                 2 - Регистрация
                 0 - Завершение работы""");
         switch (scanner.next()) {
-            case "1" -> signIn();
-            case "2" -> signUp();
+            //case "1" -> signIn();
+            //case "2" -> signUp();
             case "0" -> {}
             default -> {
                 System.out.println("Неверная команда\n");

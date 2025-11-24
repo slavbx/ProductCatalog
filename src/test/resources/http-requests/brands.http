@@ -1,0 +1,23 @@
+### Просмотр брендов
+GET http://localhost:8080/productcatalog/brands
+
+### Создание бренда
+POST http://localhost:8080/productcatalog/brands
+Content-Type: application/json; charset=utf-8
+
+{
+  "name": "Moto-Guzzi",
+  "desc": "Производитель мотоциклов"
+}
+
+### Обновление бренда
+PUT http://localhost:8080/productcatalog/brands
+Content-Type: application/json; charset=utf-8
+
+{
+  "name": "Moto-Guzzi",
+  "desc": "Производитель мотоциклов"
+}
+
+### Удаление бренда
+DELETE http://localhost:8080/productcatalog/brands/Moto-Guzzi

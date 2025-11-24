@@ -1,0 +1,8 @@
+### Получить запись аудита по ID
+GET http://localhost:8080/productcatalog/audit/1
+
+### Получить записи аудита по email
+GET http://localhost:8080/productcatalog/audit/user@example.com
+
+### Получить записи аудита за период
+GET http://localhost:8080/productcatalog/audit?startDate=2025-01-01&endDate=2025-12-31

@@ -65,7 +65,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void deleteByName(String name) throws NotFoundException {
-        if (brandRepository.existsByName(name)) {
+        if (!brandRepository.existsByName(name)) {
             throw new AlreadyExistsException("Brand with name: " + name + " not found");
         }
         brandRepository.deleteByName(name);
