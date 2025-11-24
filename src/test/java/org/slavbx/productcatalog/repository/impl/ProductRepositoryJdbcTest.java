@@ -29,7 +29,7 @@ class ProductRepositoryJdbcTest extends TestContainerTest {
             .build();
     Category category = Category.builder()
             .id(1L)
-            .name("Электроника")
+            .name("Electronics")
             .desc("Электронные устройства и аксессуары")
             .build();
     Product product = Product.builder()

@@ -3,6 +3,7 @@ package org.slavbx.productcatalog.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.dto.CategoryDTO;
 import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.mapper.CategoryMapper;
@@ -18,7 +19,8 @@ import java.util.List;
 
 @WebServlet("/categories/*")
 public class CategoryServlet extends BaseHttpServlet {
-    private final CategoryService categoryService = ServiceFactory.getCategoryService(RepositoryType.JDBC);
+    RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));
+    private final CategoryService categoryService = ServiceFactory.getCategoryService(repoType);
     private final CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
     @Override
@@ -39,24 +41,28 @@ public class CategoryServlet extends BaseHttpServlet {
         }
     }
 
+    @Auditable(action = "Получение категории по id")
     protected void doGetCategoryById(HttpServletRequest httpReq, HttpServletResponse httpResp, Long id) throws IOException {
         Category category = categoryService.getCategoryById(id);
         CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(category);
         sendJsonResponse(httpResp, categoryDTO, HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Получение категории по name")
     protected void doGetCategoryByName(HttpServletRequest httpReq, HttpServletResponse httpResp, String name) throws IOException {
         Category category = categoryService.getCategoryByName(name);
         CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(category);
         sendJsonResponse(httpResp, categoryDTO, HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Получение всех категорий")
     protected void doGetAllCategories(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         List<Category> categories = categoryService.findAllCategories();
         List<CategoryDTO> categoryDTOs = categoryMapper.categoriesToCategoryDTOs(categories);
         sendJsonResponse(httpResp, categoryDTOs, HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Создание категории")
     protected void doPost(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         String jsonReq = new String(httpReq.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
@@ -70,6 +76,7 @@ public class CategoryServlet extends BaseHttpServlet {
         sendJsonResponse(httpResp, createdCategoryDTO, HttpServletResponse.SC_CREATED);
     }
 
+    @Auditable(action = "Сохранение категории")
     protected void doPut(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         String jsonReq = new String(httpReq.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
@@ -82,6 +89,7 @@ public class CategoryServlet extends BaseHttpServlet {
         sendJsonResponse(httpResp, categoryMapper.categoryToCategoryDTO(resultCategory), HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Удаление категории")
     @Override
     protected void doDelete(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         String pathInfo = httpReq.getRequestURI().substring(httpReq.getContextPath().length());

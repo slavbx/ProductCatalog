@@ -3,6 +3,8 @@ package org.slavbx.productcatalog.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slavbx.productcatalog.annotation.Auditable;
+import org.slavbx.productcatalog.annotation.Loggable;
 import org.slavbx.productcatalog.dto.BrandDTO;
 import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.mapper.BrandMapper;
@@ -16,12 +18,12 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-
+@Loggable
 @WebServlet("/brands/*")
 public class BrandServlet extends BaseHttpServlet {
-    private final BrandService brandService = ServiceFactory.getBrandService(RepositoryType.JDBC);
+    RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));
+    private final BrandService brandService = ServiceFactory.getBrandService(repoType);
     private final BrandMapper brandMapper = BrandMapper.INSTANCE;
-
 
     @Override
     protected void doGet(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
@@ -41,24 +43,28 @@ public class BrandServlet extends BaseHttpServlet {
         }
     }
 
+    @Auditable(action = "Получение бренда по id")
     protected void doGetBrandById(HttpServletRequest httpReq, HttpServletResponse httpResp, Long id) throws IOException {
         Brand brand = brandService.getBrandById(id);
         BrandDTO brandDTO = brandMapper.brandToBrandDTO(brand);
         sendJsonResponse(httpResp, brandDTO, HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Получение бренда по name")
     protected void doGetBrandByName(HttpServletRequest httpReq, HttpServletResponse httpResp, String name) throws IOException {
         Brand brand = brandService.getBrandByName(name);
         BrandDTO brandDTO = brandMapper.brandToBrandDTO(brand);
         sendJsonResponse(httpResp, brandDTO, HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Получение всех брендов")
     protected void doGetAllBrands(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         List<Brand> brands = brandService.findAllBrands();
         List<BrandDTO> brandDTOs = brandMapper.brandsToBrandDTOs(brands);
         sendJsonResponse(httpResp, brandDTOs, HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Создание бренда")
     protected void doPost(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         String jsonReq = new String(httpReq.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
@@ -72,6 +78,7 @@ public class BrandServlet extends BaseHttpServlet {
         sendJsonResponse(httpResp, createdBrandDTO, HttpServletResponse.SC_CREATED);
     }
 
+    @Auditable(action = "Сохранение бренда")
     protected void doPut(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         String jsonReq = new String(httpReq.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
@@ -83,6 +90,7 @@ public class BrandServlet extends BaseHttpServlet {
         sendJsonResponse(httpResp, brandMapper.brandToBrandDTO(resultBrand), HttpServletResponse.SC_OK);
     }
 
+    @Auditable(action = "Удаление бренда")
     @Override
     protected void doDelete(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
         String pathInfo = httpReq.getRequestURI().substring(httpReq.getContextPath().length());

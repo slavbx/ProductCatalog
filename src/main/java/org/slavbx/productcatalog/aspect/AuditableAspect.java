@@ -4,26 +4,24 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slavbx.productcatalog.repository.DatabaseProvider;
+import org.slavbx.productcatalog.model.AuditRecord;
 import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.repository.RepositoryType;
 import org.slavbx.productcatalog.security.AuthenticationService;
+import org.slavbx.productcatalog.service.AuditService;
 import org.slavbx.productcatalog.service.ServiceFactory;
-import org.slavbx.productcatalog.service.UserService;
 
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 
 @Aspect
 public class AuditableAspect {
-    private final Connection connection = DatabaseProvider.getConnection();
-    private final AuthenticationService authService = ServiceFactory.getAuthService(RepositoryType.JDBC);
+    RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));
+    private final AuthenticationService authService = ServiceFactory.getAuthService(repoType);
+    private final AuditService auditService = ServiceFactory.getAuditService(repoType);
 
-    public AuditableAspect() throws SQLException {
+    public AuditableAspect() {
     }
 
     @Around("@annotation(org.slavbx.productcatalog.annotation.Auditable) && execution(* * (..))")
@@ -34,22 +32,12 @@ public class AuditableAspect {
 
         Object result = proceedingJoinPoint.proceed();
 
-        String email = authService.getCurrentUser() == null ? "unknown" : authService.getCurrentUser().getEmail();
-        String action = auditable.action();
-        String datetime = LocalDateTime.now().toString();
-
-        String sql = "INSERT INTO audit (email, action, datetime) VALUES (?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, email);
-            statement.setString(2, action);
-            statement.setString(3, datetime);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new SQLException("Audit write record failed");
-        }
-
+        AuditRecord auditRecord = AuditRecord.builder()
+                .email(authService.getCurrentUser() == null ? "unknown" : authService.getCurrentUser().getEmail())
+                .action(auditable.action())
+                .dateTime(LocalDateTime.now())
+                .build();
+        auditService.save(auditRecord);
         return result;
     }
-
-
 }

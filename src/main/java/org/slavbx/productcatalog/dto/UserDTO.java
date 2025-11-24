@@ -16,7 +16,7 @@ public record UserDTO (
         String email,
 
         @NotBlank(message = "Password is required")
-        @Size(min = 6, message = "Password must be at least 4 characters")
+        @Size(min = 4, message = "Password must be at least 4 characters")
         String password,
 
         @Size(max = 50, message = "Name must not exceed 50 characters")

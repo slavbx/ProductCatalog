@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.slavbx.productcatalog.annotation.Loggable;
 import org.slavbx.productcatalog.dto.ErrorResponseDTO;
 import org.slavbx.productcatalog.dto.ResponseDTO;
 import org.slavbx.productcatalog.exception.AlreadyExistsException;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Loggable
 public class BaseHttpServlet extends HttpServlet {
     protected final ObjectMapper objectMapper = new ObjectMapper();
 

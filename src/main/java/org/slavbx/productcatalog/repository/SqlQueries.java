@@ -64,4 +64,8 @@ public class SqlQueries {
             "JOIN categories c ON p.category_id = c.id " +
             "JOIN brands b ON p.brand_id = b.id " +
             "WHERE p.user_id = ?;";
+    public static final String INSERT_AUDIT_RECORD = "INSERT INTO audit (email, action, datetime) VALUES (?, ?, ?)";
+    public static final String SELECT_AUDIT_RECORDS_BY_EMAIL = "SELECT * FROM audit WHERE email = ?";
+    public static final String SELECT_AUDIT_RECORD_BY_ID = "SELECT * FROM audit WHERE id = ?";
+    public static final String SELECT_AUDIT_RECORDS_BY_DATE_RANGE = "SELECT * FROM audit WHERE datetime BETWEEN ? AND ?";
 }
