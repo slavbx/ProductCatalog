@@ -14,7 +14,7 @@ Java version: 17.0.12
 - Возможность сброса паролей пользователей
 
 ### Запуск программы
-- Убедитесь, что у вас установлены Java 17. Для этого выполните команду: java -version
+- Убедитесь, что у вас установлена Java 17. Для этого выполните команду: java -version
 - Откройте проект в IDE
 - Нажмите кнопку Run на классе Main (в IDE IntelliJ IDEA)
 
@@ -29,3 +29,4 @@ Java version: 17.0.12
 ### Домашние задания
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/1"> Домашнее задание 1</a>
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/2"> Домашнее задание 2</a>
+- <a href ="https://github.com/slavbx/ProductCatalog/pull/2"> Домашнее задание 3</a>

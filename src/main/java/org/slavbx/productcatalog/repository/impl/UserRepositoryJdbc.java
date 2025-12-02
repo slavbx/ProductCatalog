@@ -26,7 +26,7 @@ public class UserRepositoryJdbc implements UserRepository {
             prep.setString(4, user.getEmail());
             prep.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось сохранить пользователя " + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to save user: " + e.getMessage(), e);
         }
         return user;
     }
@@ -38,7 +38,7 @@ public class UserRepositoryJdbc implements UserRepository {
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось удалить пользователя"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to delete user: " + e.getMessage(), e);
         }
     }
 
@@ -52,7 +52,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 return Optional.of(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть пользователя"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return user: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -67,7 +67,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 return Optional.of(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть пользователя"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return user: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -82,7 +82,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 return Optional.of(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть пользователя"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return user: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -107,7 +107,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 users.add(mapResultSetToUser(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть пользователей"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return users: " + e.getMessage(), e);
         }
         return users;
     }

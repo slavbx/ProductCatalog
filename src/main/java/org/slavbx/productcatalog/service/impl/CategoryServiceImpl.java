@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteByName(String name) throws NotFoundException {
-        if (categoryRepository.existsByName(name)) {
+        if (!categoryRepository.existsByName(name)) {
             throw new AlreadyExistsException("Category with name: " + name + " not found");
         }
         categoryRepository.deleteByName(name);

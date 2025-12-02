@@ -37,7 +37,7 @@ class BrandRepositoryJdbcTest extends TestContainerTest {
     }
 
     @Test
-    @DisplayName("Проверка поиска бренда по ID")
+    @DisplayName("Проверка поиска бренда по id")
     void findById() {
         assertThat(brandRepository.findById(1L)).isEqualTo(Optional.of(brand));
     }

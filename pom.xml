@@ -19,6 +19,20 @@
         <junit.version>6.0.1</junit.version>
         <mockito.version>5.20.0</mockito.version>
         <assertj.version>3.27.6</assertj.version>
+        <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <jackson.databind.version>2.18.0</jackson.databind.version>
+        <aspectjrt.version>1.9.7</aspectjrt.version>
+        <aspectj.maven.plugin.version>1.15.0</aspectj.maven.plugin.version>
+        <aspectj.version>1.9.7</aspectj.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
+        <maven.war.plugin.version>3.4.0</maven.war.plugin.version>
+        <maven.compiler.version>3.13.0</maven.compiler.version>
+        <maven.test.skip>true</maven.test.skip>
+        <rest-assured.version>5.3.0</rest-assured.version>
+        <jetty.version>11.0.15</jetty.version>
     </properties>
 
     <dependencies>
@@ -31,6 +45,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
@@ -67,29 +82,119 @@
             <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>${lombok-mapstruct-binding.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectjrt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
+    <packaging>war</packaging>
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.liquibase</groupId>
-                    <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>${liquibase.version}</version>
-                    <configuration>
-                        <url>jdbc:postgresql://localhost:5432/pc_db</url>
-                        <driver>org.postgresql.Driver</driver>
-                        <username>slav</username>
-                        <password>slav</password>
-                        <outputChangeLogFile>src/main/resources/db/changelog/changelog-generated.yaml</outputChangeLogFile>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <finalName>productcatalog</finalName>
         <plugins>
             <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>${aspectj.maven.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                    <complianceLevel>16</complianceLevel>
+                    <showWeaveInfo>true</showWeaveInfo>
+                    <verbose>true</verbose>
+                    <forceAjcCompile>true</forceAjcCompile>
+                    <sources/>
+                    <weaveDirectories>
+                        <weaveDirectory>${project.build.directory}/classes</weaveDirectory>
+                    </weaveDirectories>
+                    <Xlint>ignore</Xlint>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

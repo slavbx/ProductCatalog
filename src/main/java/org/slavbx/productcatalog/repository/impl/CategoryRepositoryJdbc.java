@@ -23,7 +23,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
             prep.setString(2, category.getDesc());
             prep.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось сохранить категорию"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to save category: " + e.getMessage(), e);
         }
         return category;
     }
@@ -35,7 +35,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось удалить категорию"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to delete category: " + e.getMessage(), e);
         }
     }
 
@@ -49,7 +49,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
                 return Optional.of(mapResultSetToCategory(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть категорию"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return category: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -64,7 +64,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
                 return Optional.of(mapResultSetToCategory(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть категорию"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return category: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -84,7 +84,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
                 categories.add(mapResultSetToCategory(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть категории"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return categories: " + e.getMessage(), e);
         }
         return categories;
     }

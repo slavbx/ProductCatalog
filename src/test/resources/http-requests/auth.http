@@ -1,0 +1,11 @@
+### Авторизация
+POST http://localhost:8080/productcatalog/auth/signin
+Content-Type: application/json; charset=utf-8
+
+{
+  "email": "slav@slav.com",
+  "password": "slav"
+}
+
+### Выход из системы
+POST http://localhost:8080/productcatalog/auth/signout

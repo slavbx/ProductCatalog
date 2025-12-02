@@ -226,3 +226,36 @@ databaseChangeLog:
             referencedTableName: categories
             referencedTableSchemaName: pc_schema
             validate: true
+  - changeSet:
+      id: 1729329304659-9
+      author: slavbx
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: audit_pkey
+                  name: id
+                  type: BIGINT
+                  remarks: Идентификатор записи аудита
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+                  remarks: Email пользователя
+              - column:
+                  constraints:
+                    nullable: false
+                  name: action
+                  type: VARCHAR(255)
+                  remarks: Действие
+              - column:
+                  name: datetime
+                  type: VARCHAR(255)
+            tableName: audit
+            remarks: Таблица для хранения аудита
+            schemaName: pc_schema

@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Тестирование CategoryRepository")
 class CategoryRepositoryJdbcTest extends TestContainerTest {
     CategoryRepository categoryRepository = new CategoryRepositoryJdbc();
-    Category category = Category.builder().name("Электроника").desc("Электронные устройства и аксессуары").build();
+    Category category = Category.builder().name("Electronics").desc("Электронные устройства и аксессуары").build();
 
     @Test
     @DisplayName("Проверка сохранения категории")
@@ -41,7 +41,7 @@ class CategoryRepositoryJdbcTest extends TestContainerTest {
     @Test
     @DisplayName("Проверка поиска категории по имени")
     void findByName() {
-        assertThat(categoryRepository.findByName("Электроника")).isEqualTo(Optional.of(category));
+        assertThat(categoryRepository.findByName("Electronics")).isEqualTo(Optional.of(category));
     }
 
     @Test
@@ -53,7 +53,7 @@ class CategoryRepositoryJdbcTest extends TestContainerTest {
     @Test
     @DisplayName("Проверка существования категории по имени")
     void existsByName() {
-        assertThat(categoryRepository.existsByName("Электроника")).isTrue();
+        assertThat(categoryRepository.existsByName("Electronics")).isTrue();
     }
 
     @Test

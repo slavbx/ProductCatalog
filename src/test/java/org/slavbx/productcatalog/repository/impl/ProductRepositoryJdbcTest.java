@@ -29,7 +29,7 @@ class ProductRepositoryJdbcTest extends TestContainerTest {
             .build();
     Category category = Category.builder()
             .id(1L)
-            .name("Электроника")
+            .name("Electronics")
             .desc("Электронные устройства и аксессуары")
             .build();
     Product product = Product.builder()
@@ -69,7 +69,7 @@ class ProductRepositoryJdbcTest extends TestContainerTest {
     }
 
     @Test
-    @DisplayName("Проверка поиска продукта по ID")
+    @DisplayName("Проверка поиска продукта по id")
     void findById() {
         assertThat(productRepository.findById(1L)).isEqualTo(Optional.of(product));
     }

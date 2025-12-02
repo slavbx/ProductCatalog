@@ -23,7 +23,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
             prep.setString(2, brand.getDesc());
             prep.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось сохранить бренд " + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to save brand: " + e.getMessage(), e);
         }
         return brand;
     }
@@ -35,7 +35,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось удалить бренд"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to delete brand: " + e.getMessage(), e);
         }
     }
 
@@ -49,7 +49,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
                 return Optional.of(mapResultSetToBrand(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть бренд"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return brand: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -64,7 +64,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
                 return Optional.of(mapResultSetToBrand(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть бренд"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return brand: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -84,7 +84,7 @@ public class BrandRepositoryJdbc implements BrandRepository {
                 brands.add(mapResultSetToBrand(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть бренды"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return brands: " + e.getMessage(), e);
         }
         return brands;
     }
