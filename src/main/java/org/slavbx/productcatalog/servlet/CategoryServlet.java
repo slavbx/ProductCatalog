@@ -17,6 +17,17 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Сервлет для обработки HTTP-запросов к категориям.
+ * Поддерживает получение, создание, обновление и удаление категорий.
+ * Доступные эндпоинты:
+ * GET /categories - получение всех категорий
+ * GET /categories/{id} - получение категории по ID
+ * GET /categories/{name} - получение категории по имени
+ * POST /categories - создание новой категории
+ * PUT /categories - обновление существующей категории
+ * DELETE /categories/{name} - удаление категории по имени
+ */
 @WebServlet("/categories/*")
 public class CategoryServlet extends BaseHttpServlet {
     RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));

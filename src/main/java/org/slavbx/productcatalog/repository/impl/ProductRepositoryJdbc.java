@@ -29,7 +29,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
             if (product.getBrand() != null) prep.setLong(8, product.getBrand().getId());
             prep.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось сохранить товар " + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to save product: " + e.getMessage(), e);
         }
         return product;
     }
@@ -41,7 +41,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось удалить товар"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to delete product: " + e.getMessage(), e);
         }
     }
 
@@ -55,7 +55,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
                 return Optional.of(mapResultSetToProduct(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть товар"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return product: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -70,7 +70,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
                 return Optional.of(mapResultSetToProduct(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть товар"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return product: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -91,7 +91,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
                 products.add(mapResultSetToProduct(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть товары"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return products: " + e.getMessage(), e);
         }
         return products;
     }

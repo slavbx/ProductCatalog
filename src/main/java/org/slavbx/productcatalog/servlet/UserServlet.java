@@ -17,6 +17,17 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Сервлет для обработки HTTP-запросов к пользователям.
+ * Поддерживает получение, создание, обновление и сброс пароля пользователей.
+ * Доступные эндпоинты:
+ * GET /users - получение всех пользователей
+ * GET /users/{id} - получение пользователя по ID
+ * GET /users/{email} - получение пользователя по email
+ * POST /users - создание нового пользователя
+ * PUT /users - обновление данных пользователя
+ * PUT /users/{email}/reset-password - сброс пароля пользователя
+ */
 @WebServlet("/users/*")
 public class UserServlet extends BaseHttpServlet {
     RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));

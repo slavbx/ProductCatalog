@@ -69,7 +69,7 @@ class ProductRepositoryJdbcTest extends TestContainerTest {
     }
 
     @Test
-    @DisplayName("Проверка поиска продукта по ID")
+    @DisplayName("Проверка поиска продукта по id")
     void findById() {
         assertThat(productRepository.findById(1L)).isEqualTo(Optional.of(product));
     }

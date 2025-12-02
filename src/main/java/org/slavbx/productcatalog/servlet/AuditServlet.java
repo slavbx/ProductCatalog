@@ -3,6 +3,7 @@ package org.slavbx.productcatalog.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.dto.AuditRecordDTO;
 import org.slavbx.productcatalog.dto.ResponseDTO;
 import org.slavbx.productcatalog.exception.NotFoundException;
@@ -18,6 +19,14 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Сервлет для обработки HTTP-запросов к аудит-логам.
+ * Поддерживает получение записей аудита по ID, email и диапазону дат.
+ * Доступные эндпоинты:
+ * GET /audit - записи за период (параметры: startDate, endDate)
+ * GET /audit/{id} - запись по идентификатору
+ * GET /audit/{email} - записи по email пользователя *
+ */
 @WebServlet("/audit/*")
 public class AuditServlet extends BaseHttpServlet {
     RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));
@@ -71,5 +80,24 @@ public class AuditServlet extends BaseHttpServlet {
         List<AuditRecord> auditRecords = auditService.findAuditRecordsByDateRange(startDate, endDate);
         List<AuditRecordDTO> auditRecordDTOs = auditRecordMapper.auditRecordsToAuditRecordDTOs(auditRecords);
         sendJsonResponse(httpResp, auditRecordDTOs, HttpServletResponse.SC_OK);
+    }
+
+    @Auditable(action = "Создание аудит записи")
+    protected void doPost(HttpServletRequest httpReq, HttpServletResponse httpResp) throws IOException {
+        String jsonReq = new String(httpReq.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        AuditRecordDTO auditRecordDTO = objectMapper.readValue(jsonReq, AuditRecordDTO.class);
+        validate(auditRecordDTO);
+
+        AuditRecord auditRecord = auditRecordMapper.auditRecordDTOToAuditRecord(auditRecordDTO);
+
+        if (auditRecord.getDateTime() == null) {
+            auditRecord.setDateTime(LocalDateTime.now());
+        }
+
+        AuditRecord createdAuditRecord = auditService.save(auditRecord);
+        AuditRecordDTO createdAuditRecordDTO = auditRecordMapper.auditRecordToAuditRecordDTO(createdAuditRecord);
+
+        sendJsonResponse(httpResp, createdAuditRecordDTO, HttpServletResponse.SC_CREATED);
     }
 }

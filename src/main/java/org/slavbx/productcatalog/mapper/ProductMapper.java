@@ -9,6 +9,9 @@ import org.slavbx.productcatalog.model.Product;
 
 import java.util.List;
 
+/**
+ * Маппер для преобразования между сущностью Product и DTO
+ */
 @Mapper
 public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);

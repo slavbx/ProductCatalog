@@ -14,7 +14,9 @@ import org.slavbx.productcatalog.service.ServiceFactory;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
-
+/**
+ * Аспект для автоматического аудирования действий
+ */
 @Aspect
 public class AuditableAspect {
     RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));

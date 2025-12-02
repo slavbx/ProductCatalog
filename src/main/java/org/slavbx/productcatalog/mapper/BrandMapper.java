@@ -7,6 +7,9 @@ import org.slavbx.productcatalog.model.Brand;
 
 import java.util.List;
 
+/**
+ * Маппер для преобразования между сущностью Brand и DTO
+ */
 @Mapper
 public interface BrandMapper {
     BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);

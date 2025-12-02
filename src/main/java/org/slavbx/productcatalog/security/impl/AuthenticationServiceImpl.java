@@ -7,6 +7,11 @@ import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
 import org.slavbx.productcatalog.security.AuthenticationService;
 
+/**
+ * Реализация сервиса для обеспечения аутентификации и авторизации пользователей.
+ * Предоставляет функционал для регистрации нового пользователя,
+ * а также аутентификации существующих пользователей
+ */
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     @Getter

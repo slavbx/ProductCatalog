@@ -7,6 +7,9 @@ import org.slavbx.productcatalog.model.Category;
 
 import java.util.List;
 
+/**
+ * Маппер для преобразования между сущностью Category и DTO
+ */
 @Mapper
 public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);

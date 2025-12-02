@@ -15,6 +15,13 @@ import org.slavbx.productcatalog.service.ServiceFactory;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Сервлет для обработки HTTP-запросов аутентификации.
+ * Поддерживает авторизацию и завершение сеанса пользователя.
+ * Доступные эндпоинты:
+ * POST /auth/signin - авторизация пользователя
+ * POST /auth/signout - завершение сеанса
+ */
 @WebServlet("/auth/*")
 public class AuthServlet extends BaseHttpServlet {
     RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));

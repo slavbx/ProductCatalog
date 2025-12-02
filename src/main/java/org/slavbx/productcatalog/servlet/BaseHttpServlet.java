@@ -19,6 +19,13 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Базовый сервлет для обработки HTTP-запросов.
+ * Предоставляет общую обработку исключений, валидацию DTO и отправку JSON-ответов.
+ * Все дочерние сервлеты наследуют централизованную обработку ошибок:
+ * NotFoundException (404), AlreadyExistsException (409),
+ * IllegalArgumentException (400) и общих исключений (500).
+ */
 @Loggable
 public class BaseHttpServlet extends HttpServlet {
     protected final ObjectMapper objectMapper = new ObjectMapper();

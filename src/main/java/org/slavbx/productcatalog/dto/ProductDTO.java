@@ -1,12 +1,10 @@
 package org.slavbx.productcatalog.dto;
 
-import lombok.Builder;
-
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 /**
- * Data Transfer Object для передачи продукта
+ * Data Transfer Object для передачи товара
  */
 public record ProductDTO (
         @NotBlank(message = "Product name is required")

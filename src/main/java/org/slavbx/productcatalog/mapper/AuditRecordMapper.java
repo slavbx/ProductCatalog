@@ -7,6 +7,9 @@ import org.slavbx.productcatalog.model.AuditRecord;
 
 import java.util.List;
 
+/**
+ * Маппер для преобразования между сущностью AuditRecord и DTO
+ */
 @Mapper
 public interface AuditRecordMapper {
     AuditRecordMapper INSTANCE = Mappers.getMapper(AuditRecordMapper.class);

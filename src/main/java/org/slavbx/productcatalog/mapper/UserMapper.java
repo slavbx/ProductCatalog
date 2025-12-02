@@ -8,6 +8,9 @@ import org.slavbx.productcatalog.model.User;
 
 import java.util.List;
 
+/**
+ * Маппер для преобразования между сущностью User и DTO
+ */
 @Mapper
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);

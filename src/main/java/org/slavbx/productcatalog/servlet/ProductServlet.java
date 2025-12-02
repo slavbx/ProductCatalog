@@ -18,6 +18,17 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Сервлет для обработки HTTP-запросов к товарам.
+ * Поддерживает получение, создание, обновление и удаление товаров.
+ * Доступные эндпоинты:
+ * GET /products - получение всех товаров текущего пользователя
+ * GET /products/{id} - получение товара по ID
+ * GET /products/{name} - получение товара по имени
+ * POST /products - создание нового товара
+ * PUT /products - обновление существующего товара
+ * DELETE /products/{name} - удаление товара по имени
+ */
 @WebServlet("/products/*")
 public class ProductServlet extends BaseHttpServlet {
     RepositoryType repoType = RepositoryType.valueOf(System.getProperty("repository.type"));

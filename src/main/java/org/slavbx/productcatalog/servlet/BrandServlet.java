@@ -18,6 +18,17 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Сервлет для обработки HTTP-запросов к брендам.
+ * Поддерживает получение, создание, обновление и удаление брендов.
+ * Доступные эндпоинты:
+ * GET /brands - получение всех брендов
+ * GET /brands/{id} - получение бренда по ID
+ * GET /brands/{name} - получение бренда по имени
+ * POST /brands - создание нового бренда
+ * PUT /brands - обновление существующего бренда
+ * DELETE /brands/{name} - удаление бренда по имени
+ */
 @Loggable
 @WebServlet("/brands/*")
 public class BrandServlet extends BaseHttpServlet {

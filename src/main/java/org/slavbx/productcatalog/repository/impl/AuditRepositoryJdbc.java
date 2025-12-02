@@ -29,7 +29,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
             prep.setObject(3, auditRecord.getDateTime());
             prep.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось сохранить запись аудита " + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to save audit record: " + e.getMessage(), e);
         }
         return auditRecord;
     }
@@ -45,7 +45,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
                 records.add(mapResultSetToAuditRecord(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть записи аудита"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return audit records: " + e.getMessage(), e);
         }
         return records;
     }
@@ -60,7 +60,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
                 return Optional.of(mapResultSetToAuditRecord(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть запись аудита"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return audit record: " + e.getMessage(), e);
         }
         return Optional.empty();
     }
@@ -82,7 +82,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
                 records.add(mapResultSetToAuditRecord(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepositoryException("Ошибка. Не удалось вернуть записи аудита за период"  + e.getMessage(), e);
+            throw new RepositoryException("Error. Failed to return audit records for the period: " + e.getMessage(), e);
         }
         return records;
     }

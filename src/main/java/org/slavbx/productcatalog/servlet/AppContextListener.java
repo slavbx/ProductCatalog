@@ -8,7 +8,9 @@ import org.slavbx.productcatalog.repository.DatabaseProvider;
 import java.io.InputStream;
 import java.util.Properties;
 
-
+/**
+ * Слушатель контекста веб-приложения для инициализации системных настроек и базы данных
+ */
 @WebListener
 public class AppContextListener implements ServletContextListener {
     private static final String PROPERTY_REPO_TYPE = "repository.type";
