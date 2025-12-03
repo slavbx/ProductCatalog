@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Маппер для преобразования между сущностью Brand и DTO
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface BrandMapper {
     BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);
 

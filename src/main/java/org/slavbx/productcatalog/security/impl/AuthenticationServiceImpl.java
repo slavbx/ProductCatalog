@@ -1,26 +1,26 @@
 package org.slavbx.productcatalog.security.impl;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
 import org.slavbx.productcatalog.security.AuthenticationService;
+import org.springframework.stereotype.Service;
 
 /**
  * Реализация сервиса для обеспечения аутентификации и авторизации пользователей.
  * Предоставляет функционал для регистрации нового пользователя,
  * а также аутентификации существующих пользователей
  */
+@Service
+@RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     @Getter
     @Setter
     public User currentUser = null;
-
-    public AuthenticationServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     /**
      * {@inheritDoc}

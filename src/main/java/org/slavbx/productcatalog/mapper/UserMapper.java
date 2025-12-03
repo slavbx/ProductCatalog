@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Маппер для преобразования между сущностью User и DTO
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 

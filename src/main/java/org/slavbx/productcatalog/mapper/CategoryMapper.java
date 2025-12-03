@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Маппер для преобразования между сущностью Category и DTO
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 

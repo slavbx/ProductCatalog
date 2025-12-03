@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Маппер для преобразования между сущностью AuditRecord и DTO
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AuditRecordMapper {
     AuditRecordMapper INSTANCE = Mappers.getMapper(AuditRecordMapper.class);
 

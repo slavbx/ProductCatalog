@@ -1,8 +1,10 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.model.Product;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.ProductRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.Optional;
 /**
  * Реализация репозитория для хранения товаров {@link ProductRepository}
  */
+@Repository
+@RequiredArgsConstructor
 public class ProductRepositoryCore implements ProductRepository {
     private Long lastId;
     private final Map<Long, Product> products = new HashMap<>();

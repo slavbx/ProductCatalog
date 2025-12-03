@@ -5,6 +5,7 @@ import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.AuditRecord;
 import org.slavbx.productcatalog.repository.AuditRepository;
 import org.slavbx.productcatalog.service.AuditService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * Реализация сервиса для управления записями аудита.
  * Обеспечивает операции получения, создания и поиска записей аудита.
  */
+@Service
 @RequiredArgsConstructor
 public class AuditServiceImpl implements AuditService {
     private final AuditRepository auditRepository;

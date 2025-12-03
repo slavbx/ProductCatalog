@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    name: test_db
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+    current-schema: pc_schema
+  liquibase:
+    user: test
+    password: test
+    default-schema: pc_service_schema
+    change-log: /db/changelog/changelog-master.yaml

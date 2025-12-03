@@ -6,6 +6,7 @@ import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
 import org.slavbx.productcatalog.service.CategoryService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * Предоставляет функционал для работы с категориями, включая
  * получение их по id и email, создание, удаление
  */
+@Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;

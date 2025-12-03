@@ -6,6 +6,7 @@ import org.slavbx.productcatalog.exception.NotFoundException;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
 import org.slavbx.productcatalog.service.BrandService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * Реализация сервиса для управления брендами.
  * Обеспечивает операции получения, создания, и поиска брендов.
  */
+@Service
 @RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;

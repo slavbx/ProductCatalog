@@ -7,6 +7,7 @@ import org.slavbx.productcatalog.model.Product;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.ProductRepository;
 import org.slavbx.productcatalog.service.ProductService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * Реализация сервиса для управления продуктами.
  * Обеспечивает операции получения, создания, и поиска продуктов.
  */
+@Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;

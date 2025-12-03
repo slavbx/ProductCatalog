@@ -2,17 +2,23 @@ package org.slavbx.productcatalog.repository.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slavbx.productcatalog.TestContainerTest;
+import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
+@SpringJUnitConfig(TestContainerConfig.class)
 @DisplayName("Тестирование BrandRepository")
-class BrandRepositoryJdbcTest extends TestContainerTest {
-    BrandRepository brandRepository = new BrandRepositoryJdbc();
+class BrandRepositoryJdbcTest {
+    @Autowired
+    BrandRepository brandRepository;
     Brand brand = Brand.builder().name("Zalman").desc("Производитель систем охлаждения и корпусов").build();
 
     @Test

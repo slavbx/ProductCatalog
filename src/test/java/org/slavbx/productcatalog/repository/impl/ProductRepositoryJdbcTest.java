@@ -2,9 +2,11 @@ package org.slavbx.productcatalog.repository.impl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slavbx.productcatalog.TestContainerTest;
+import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.*;
 import org.slavbx.productcatalog.repository.ProductRepository;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,9 +14,11 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
+@SpringJUnitConfig(TestContainerConfig.class)
 @DisplayName("Тестирование ProductRepository")
-class ProductRepositoryJdbcTest extends TestContainerTest {
-    ProductRepository productRepository = new ProductRepositoryJdbc();
+class ProductRepositoryJdbcTest {
+    ProductRepository productRepository;
     User user = User.builder()
             .id(2L)
             .email("slav@slav.com")

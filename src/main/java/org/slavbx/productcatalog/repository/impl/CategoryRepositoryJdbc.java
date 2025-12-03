@@ -1,11 +1,14 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.RepositoryException;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
-import org.slavbx.productcatalog.repository.DatabaseProvider;
 import org.slavbx.productcatalog.repository.SqlQueries;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +17,15 @@ import java.util.Optional;
 /**
  * Реализация репозитория для хранения категорий
  */
+@Primary
+@Repository
+@RequiredArgsConstructor
 public class CategoryRepositoryJdbc implements CategoryRepository {
+    private final DataSource dataSource;
+
     @Override
     public Category save(Category category) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(SqlQueries.INSERT_CATEGORY);
             prep.setString(1, category.getName());
             prep.setString(2, category.getDesc());
@@ -30,7 +38,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
 
     @Override
     public void deleteByName(String name) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.DELETE_CATEGORY_BY_NAME);
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
@@ -41,7 +49,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
 
     @Override
     public Optional<Category> findByName(String name) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_CATEGORY_BY_NAME);
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -56,7 +64,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
 
     @Override
     public Optional<Category> findById(Long id) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_CATEGORY_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -77,7 +85,7 @@ public class CategoryRepositoryJdbc implements CategoryRepository {
     @Override
     public List<Category> findAllCategories() throws RepositoryException {
         List<Category> categories = new ArrayList<>();
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SqlQueries.SELECT_CATEGORIES);
             while (resultSet.next()) {

@@ -4,12 +4,15 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 /**
  * Аспект для автоматического логирования действий
  */
 @Aspect
+@Component
 public class LoggableAspect {
+
     @Pointcut("within(@org.slavbx.productcatalog.annotation.Loggable *) && execution(* * (..))")
     public void annotatedByLoggable() {}
 
@@ -23,5 +26,4 @@ public class LoggableAspect {
                 " finished. execution time is " + end + " ms.");
         return result;
     }
-
 }

@@ -1,13 +1,17 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
  * Реализация репозитория для хранения сущности пользователя {@link UserRepository}
  */
+@Repository
+@RequiredArgsConstructor
 public class UserRepositoryCore implements UserRepository {
     private Long lastId;
 
