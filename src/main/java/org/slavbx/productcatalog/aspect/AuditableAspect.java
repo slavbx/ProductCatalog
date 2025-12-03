@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 @Component
 public class AuditableAspect {
 
-    @Lazy
     @Autowired
     private AuthenticationService authService;
 

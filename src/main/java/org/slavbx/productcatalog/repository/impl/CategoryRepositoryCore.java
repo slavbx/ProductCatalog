@@ -16,12 +16,8 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class CategoryRepositoryCore implements CategoryRepository {
-    private Long lastId;
+    private Long lastId = 0L;
     private final Map<Long, Category> categories = new HashMap<>();
-
-    public CategoryRepositoryCore() {
-        this.lastId = 0L;
-    }
 
     @Override
     public Category save(Category category) {

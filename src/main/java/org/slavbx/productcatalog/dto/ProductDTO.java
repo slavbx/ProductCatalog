@@ -1,11 +1,14 @@
 package org.slavbx.productcatalog.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 /**
  * Data Transfer Object для передачи товара
  */
+@Schema(description = "DTO для передачи товара")
 public record ProductDTO (
         @NotBlank(message = "Product name is required")
         @Size(min = 2, max = 100, message = "Product name must be between 2 and 100 characters")

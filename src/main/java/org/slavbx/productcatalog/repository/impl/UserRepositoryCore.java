@@ -13,13 +13,9 @@ import java.util.*;
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryCore implements UserRepository {
-    private Long lastId;
+    private Long lastId = 0L;
 
     private final Map<Long, User> users = new HashMap<>();
-
-    public UserRepositoryCore() {
-        this.lastId = 0L;
-    }
 
     @Override
     public User save(User user) {

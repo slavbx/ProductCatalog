@@ -1,5 +1,8 @@
 package org.slavbx.productcatalog.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.dto.ProductDTO;
 import org.slavbx.productcatalog.mapper.ProductMapper;
@@ -21,8 +24,10 @@ import java.util.List;
  * Контроллер для обработки HTTP-запросов к товарам.
  * Поддерживает получение, создание, обновление и удаление товаров.
  */
+@Tag(name = "ProductController", description = "API for working with products")
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
@@ -33,24 +38,8 @@ public class ProductController {
     private final ProductMapper productMapper;
     private final ValidationUtil validationUtil;
 
-    @Autowired
-    public ProductController(ProductService productService,
-                             AuthenticationService authService,
-                             UserService userService,
-                             CategoryService categoryService,
-                             BrandService brandService,
-                             ProductMapper productMapper,
-                             ValidationUtil validationUtil) {
-        this.productService = productService;
-        this.authService = authService;
-        this.userService = userService;
-        this.categoryService = categoryService;
-        this.brandService = brandService;
-        this.productMapper = productMapper;
-        this.validationUtil = validationUtil;
-    }
-
     @GetMapping
+    @Operation(summary = "Get all user products")
     @Auditable(action = "Получение всех товаров пользователя")
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productService.findAllProductsByUser(authService.getCurrentUser());
@@ -58,6 +47,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get product by id")
     @Auditable(action = "Получение товара по id")
     public ProductDTO getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
@@ -65,6 +55,7 @@ public class ProductController {
     }
 
     @GetMapping("/name/{name}")
+    @Operation(summary = "Get product by name")
     @Auditable(action = "Получение товара по name")
     public ProductDTO getProductByName(@PathVariable String name) {
         Product product = productService.getProductByName(name);
@@ -72,6 +63,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @Operation(summary = "Create product")
     @Auditable(action = "Создание товара")
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         validationUtil.validate(productDTO);
@@ -89,6 +81,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @Operation(summary = "Update product")
     @Auditable(action = "Сохранение товара")
     public ProductDTO updateProduct(@RequestBody ProductDTO productDTO) {
         validationUtil.validate(productDTO);
@@ -107,6 +100,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{name}")
+    @Operation(summary = "Delete product")
     @Auditable(action = "Удаление товара")
     public ResponseEntity<String> deleteProduct(@PathVariable String name) {
         productService.deleteByName(name);

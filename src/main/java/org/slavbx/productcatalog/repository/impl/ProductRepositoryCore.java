@@ -17,12 +17,8 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class ProductRepositoryCore implements ProductRepository {
-    private Long lastId;
+    private Long lastId = 0L;
     private final Map<Long, Product> products = new HashMap<>();
-
-    public ProductRepositoryCore() {
-        this.lastId = 0L;
-    }
 
     @Override
     public Product save(Product product) {

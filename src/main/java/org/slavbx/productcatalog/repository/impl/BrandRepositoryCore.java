@@ -16,12 +16,8 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class BrandRepositoryCore implements BrandRepository {
-    private Long lastId;
+    private Long lastId = 0L;
     private final Map<Long, Brand> brands = new HashMap<>();
-
-    public BrandRepositoryCore() {
-        this.lastId = 0L;
-    }
 
     @Override
     public Brand save(Brand brand) {
