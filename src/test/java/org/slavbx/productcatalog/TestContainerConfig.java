@@ -1,15 +1,24 @@
 package org.slavbx.productcatalog;
 
-import jakarta.annotation.PostConstruct;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.postgresql.ds.PGSimpleDataSource;
-import org.springframework.beans.factory.annotation.Value;
+import org.slavbx.productcatalog.config.AppConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.mock.web.MockServletContext;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import javax.sql.DataSource;
 
@@ -19,32 +28,38 @@ import javax.sql.DataSource;
  * а также устанавливает системные свойства для использования в тестах и
  * вызывает инициализацию базы данных.
  */
-@Configuration
-@TestPropertySource("classpath:application-test.yml")
-@ComponentScan("org.slavbx.productcatalog")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { AppConfig.class })
+@WebAppConfiguration
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestContainerConfig {
+    @Autowired
+    public WebApplicationContext webApplicationContext;
+    public MockMvc mockMvc;
+    public ObjectMapper objectMapper;
 
-    public static PostgreSQLContainer<?> POSTGRES_CONTAINER;
 
-    @Value("${spring.datasource.username}")
-    private String username;
+    @Container
+    public static PostgreSQLContainer<?> POSTGRES_CONTAINER = new PostgreSQLContainer<>("postgres:latest")
+            .withDatabaseName("test_db")
+            .withUsername("slav")
+            .withPassword("slav");
 
-    @Value("${spring.datasource.password}")
-    private String password;
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", POSTGRES_CONTAINER::getJdbcUrl);
+        registry.add("spring.liquibase.url", POSTGRES_CONTAINER::getJdbcUrl);
+        registry.add("spring.datasource.username", POSTGRES_CONTAINER::getUsername);
+        registry.add("spring.datasource.password", POSTGRES_CONTAINER::getPassword);
+    }
 
-    @Value("${spring.datasource.database-name:test_db}")
-    private String databaseName;
+    static {
+        POSTGRES_CONTAINER.start();
+    }
 
-    @PostConstruct
-    public void init() {
-        if (POSTGRES_CONTAINER == null) {
-            POSTGRES_CONTAINER = new PostgreSQLContainer<>("postgres:13.3")
-                    .withDatabaseName(databaseName)
-                    .withUsername(username)
-                    .withPassword(password);
-            POSTGRES_CONTAINER.start();
-            System.setProperty("spring.datasource.url", POSTGRES_CONTAINER.getJdbcUrl());
-        }
+    @BeforeAll
+    void beforeAll() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Bean
@@ -55,10 +70,5 @@ public class TestContainerConfig {
         dataSource.setUser(POSTGRES_CONTAINER.getUsername());
         dataSource.setPassword(POSTGRES_CONTAINER.getPassword());
         return dataSource;
-    }
-
-    @Bean
-    public MockServletContext servletContext() {
-        return new MockServletContext("");
     }
 }

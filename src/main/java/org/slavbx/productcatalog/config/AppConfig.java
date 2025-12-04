@@ -34,9 +34,6 @@ public class AppConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() {
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-
-        //String profile = System.getProperty("spring.profiles.active", "dev");
-        //String configFileName = profile.equals("test") ? "application-test.yml" : "application.yml";
         String configFileName = "application.yml";
         yaml.setResources(new ClassPathResource(configFileName));
 
@@ -53,7 +50,6 @@ public class AppConfig {
         dataSource.setPassword(password);
         dataSource.setDriverClassName(driverClassName);
         dataSource.setSchema(schema);
-
         return dataSource;
     }
 }

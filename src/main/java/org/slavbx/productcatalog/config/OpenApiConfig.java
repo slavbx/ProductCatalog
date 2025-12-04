@@ -33,22 +33,6 @@ public class OpenApiConfig implements WebMvcConfigurer {
         return new OpenAPI();
     }
 
-//    @Bean
-//    public GroupedOpenApi publicApi() {
-//        return GroupedOpenApi.builder()
-//                .group("public")
-//                .pathsToMatch("/api/**", "/productcatalog/**")
-//                .build();
-//    }
-//
-//    @Bean
-//    public GroupedOpenApi adminApi() {
-//        return GroupedOpenApi.builder()
-//                .group("admin")
-//                .pathsToMatch("/admin/**")
-//                .build();
-//    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")

@@ -42,6 +42,7 @@ public class BrandController {
     public List<BrandDTO> getAllBrands() {
         List<Brand> brands = brandService.findAllBrands();
         return brandMapper.brandsToBrandDTOs(brands);
+
     }
 
     @GetMapping("/{id}")

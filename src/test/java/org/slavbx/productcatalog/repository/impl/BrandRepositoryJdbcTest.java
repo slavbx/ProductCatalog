@@ -6,17 +6,14 @@ import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
-@SpringJUnitConfig(TestContainerConfig.class)
+
 @DisplayName("Тестирование BrandRepository")
-class BrandRepositoryJdbcTest {
+class BrandRepositoryJdbcTest extends TestContainerConfig {
     @Autowired
     BrandRepository brandRepository;
     Brand brand = Brand.builder().name("Zalman").desc("Производитель систем охлаждения и корпусов").build();
