@@ -36,7 +36,7 @@ public class TestContainerConfig {
     @Autowired
     public WebApplicationContext webApplicationContext;
     public MockMvc mockMvc;
-    public ObjectMapper objectMapper;
+    public ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Container

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -12,10 +13,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
-@SpringJUnitConfig(TestContainerConfig.class)
 @DisplayName("Тестирование CategoryRepository")
-class CategoryRepositoryJdbcTest {
+class CategoryRepositoryJdbcTest extends TestContainerConfig {
+    @Autowired
     CategoryRepository categoryRepository;
     Category category = Category.builder().name("Electronics").desc("Электронные устройства и аксессуары").build();
 

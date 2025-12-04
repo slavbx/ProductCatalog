@@ -1,6 +1,7 @@
 package org.slavbx.productcatalog.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 /**
  * Data Transfer Object для передачи товара
  */
+@Builder
 @Schema(description = "DTO для передачи товара")
 public record ProductDTO (
         @NotBlank(message = "Product name is required")

@@ -5,16 +5,10 @@ import org.junit.jupiter.api.MediaType;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.dto.BrandDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.testcontainers.shaded.org.hamcrest.Matchers.greaterThan;
-import static org.testcontainers.shaded.org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("Тестирование BrandController")
 class BrandControllerTest extends TestContainerConfig {
@@ -31,6 +25,7 @@ class BrandControllerTest extends TestContainerConfig {
     }
 
     @Test
+    @DisplayName("GET /brands/{id} - получение бренда по id")
     void getBrandById() throws Exception {
         mockMvc.perform(get("/brands/1"))
                 .andExpect(status().isOk())
@@ -48,17 +43,17 @@ class BrandControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("POST /brands/create - создание нового бренда")
+    @DisplayName("POST /brands - создание нового бренда")
     void createBrand() throws Exception {
         BrandDTO newBrand = BrandDTO.builder()
                 .name("Corsair")
                 .desc("Производитель оперативной памяти и блоков питания")
                 .build();
 
-        mockMvc.perform(post("/brands/create")
+        mockMvc.perform(post("/brands")
                         .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                         .content(objectMapper.writeValueAsString(newBrand)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Corsair"))
                 .andExpect(jsonPath("$.desc").value("Производитель оперативной памяти и блоков питания"));
 
@@ -68,30 +63,35 @@ class BrandControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("PUT /brands/update/{id} - обновление бренда")
+    @DisplayName("PUT /brands - обновление бренда")
     void updateBrand() throws Exception {
-        String response = mockMvc.perform(get("/brands/name/Zalman"))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        Long brandId = objectMapper.readTree(response).get("id").asLong();
         BrandDTO updateBrand = BrandDTO.builder()
-                .name("Zalman Updated")
+                .name("Zalman")
                 .desc("Обновленное описание производителя")
                 .build();
-        mockMvc.perform(put("/brands/update/" + brandId)
+        mockMvc.perform(put("/brands")
                         .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                         .content(objectMapper.writeValueAsString(updateBrand)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Zalman Updated"))
+                .andExpect(jsonPath("$.name").value("Zalman"))
                 .andExpect(jsonPath("$.desc").value("Обновленное описание производителя"));
-        mockMvc.perform(get("/brands/" + brandId))
+        mockMvc.perform(get("/brands/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Zalman Updated"));
+                .andExpect(jsonPath("$.name").value("Zalman"));
     }
 
     @Test
-    void deleteBrand() {
+    @DisplayName("DELETE /brands/{name} - получение бренда по имени")
+    void deleteBrand() throws Exception {
+        BrandDTO toDeleteBrand = BrandDTO.builder()
+                .name("toDelete")
+                .desc("Бренд для удаления")
+                .build();
+        mockMvc.perform(post("/brands")
+                .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                .content(objectMapper.writeValueAsString(toDeleteBrand))).andExpect(status().isCreated());
+        mockMvc.perform(delete("/brands/toDelete"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Successfully deleted"));
     }
 }

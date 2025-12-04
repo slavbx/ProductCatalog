@@ -6,6 +6,7 @@ import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.Level;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -13,10 +14,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
-@SpringJUnitConfig(TestContainerConfig.class)
 @DisplayName("Тестирование UserRepository")
-class UserRepositoryJdbcTest {
+class UserRepositoryJdbcTest extends TestContainerConfig {
+    @Autowired
     UserRepository userRepository;
     User user = User.builder().email("slav@slav.com").level(Level.USER).name("slav").password("slav").build();
 

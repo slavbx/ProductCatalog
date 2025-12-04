@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.*;
 import org.slavbx.productcatalog.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -14,10 +15,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
-@SpringJUnitConfig(TestContainerConfig.class)
 @DisplayName("Тестирование ProductRepository")
-class ProductRepositoryJdbcTest {
+class ProductRepositoryJdbcTest extends TestContainerConfig {
+    @Autowired
     ProductRepository productRepository;
     User user = User.builder()
             .id(2L)
