@@ -31,3 +31,4 @@ Java version: 17.0.12
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/2"> Домашнее задание 2</a>
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/3"> Домашнее задание 3</a>
 - <a href ="https://github.com/slavbx/ProductCatalog/pull/4"> Домашнее задание 4</a>
+- <a href ="https://github.com/slavbx/ProductCatalog/pull/5"> Домашнее задание 5</a>
