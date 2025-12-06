@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  */
 @Builder
 @Schema(description = "DTO для передачи бренда")
-public record BrandDTO (
+public record BrandDto(
         @Size(min = 2, max = 50, message = "Brand name must be between 2 and 50 characters")
         String name,
 

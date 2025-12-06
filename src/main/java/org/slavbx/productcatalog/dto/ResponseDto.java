@@ -8,7 +8,7 @@ import lombok.Builder;
  */
 @Builder
 @Schema(description = "DTO для отправки ответа клиенту на его запрос")
-public record ResponseDTO(
+public record ResponseDto(
         String message
 ) {
 }

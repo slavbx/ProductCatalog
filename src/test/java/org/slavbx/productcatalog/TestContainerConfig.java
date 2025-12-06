@@ -61,14 +61,4 @@ public class TestContainerConfig {
     void beforeAll() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
-
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(POSTGRES_CONTAINER.getJdbcUrl());
-        dataSource.setUser(POSTGRES_CONTAINER.getUsername());
-        dataSource.setPassword(POSTGRES_CONTAINER.getPassword());
-        return dataSource;
-    }
 }

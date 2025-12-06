@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @Builder
 @Schema(description = "DTO для передачи записи аудита")
-public record AuditRecordDTO (
+public record AuditRecordDto(
         @NotBlank(message = "Email is required")
         String email,
 

@@ -3,8 +3,8 @@ package org.slavbx.productcatalog.controller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.ProductDTO;
-import org.slavbx.productcatalog.dto.UserDTO;
+import org.slavbx.productcatalog.dto.ProductDto;
+import org.slavbx.productcatalog.dto.UserDto;
 import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ class ProductControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("GET /products - получение всех товаров")
     void getAllProducts() throws Exception {
-        UserDTO userDTO = UserDTO.builder()
+        UserDto userDTO = UserDto.builder()
                 .email("slav@slav.com")
                 .password("slav")
                 .build();
@@ -48,7 +48,7 @@ class ProductControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /products - создание нового товара")
     void createProduct() throws Exception {
-        ProductDTO newProduct = ProductDTO.builder()
+        ProductDto newProduct = ProductDto.builder()
                 .name("NewProduct")
                 .desc("New product description")
                 .price(BigDecimal.valueOf(200.0))
@@ -72,7 +72,7 @@ class ProductControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /products - обновление товара")
     void updateProduct() throws Exception {
-        ProductDTO product = ProductDTO.builder()
+        ProductDto product = ProductDto.builder()
                 .name("NewProduct1")
                 .desc("New product description")
                 .price(BigDecimal.valueOf(200.0))
@@ -85,7 +85,7 @@ class ProductControllerTest extends TestContainerConfig {
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                 .content(objectMapper.writeValueAsString(product)));
 
-        ProductDTO updateProduct = ProductDTO.builder()
+        ProductDto updateProduct = ProductDto.builder()
                 .name("NewProduct1")
                 .desc("Updated product description")
                 .price(BigDecimal.valueOf(201.0))
@@ -109,7 +109,7 @@ class ProductControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("DELETE /products/{name} - получение товара по имени")
     void deleteProduct() throws Exception {
-        ProductDTO toDeleteProduct = ProductDTO.builder()
+        ProductDto toDeleteProduct = ProductDto.builder()
                 .name("toDelete")
                 .desc("Товар для удаления")
                 .price(BigDecimal.valueOf(50.0))

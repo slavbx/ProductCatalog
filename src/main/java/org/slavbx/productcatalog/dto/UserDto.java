@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  */
 @Builder
 @Schema(description = "DTO для передачи пользователя")
-public record UserDTO (
+public record UserDto(
         @NotBlank(message = "Email is required")
         @Email(message = "Email should be valid")
         String email,

@@ -2,7 +2,7 @@ package org.slavbx.productcatalog.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.slavbx.productcatalog.dto.AuditRecordDTO;
+import org.slavbx.productcatalog.dto.AuditRecordDto;
 import org.slavbx.productcatalog.model.AuditRecord;
 
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
 public interface AuditRecordMapper {
     AuditRecordMapper INSTANCE = Mappers.getMapper(AuditRecordMapper.class);
 
-    AuditRecordDTO auditRecordToAuditRecordDTO(AuditRecord auditRecord);
+    AuditRecordDto auditRecordToAuditRecordDTO(AuditRecord auditRecord);
 
-    List<AuditRecordDTO> auditRecordsToAuditRecordDTOs(List<AuditRecord> auditRecords);
+    List<AuditRecordDto> auditRecordsToAuditRecordDTOs(List<AuditRecord> auditRecords);
 
-    AuditRecord auditRecordDTOToAuditRecord(AuditRecordDTO auditRecordDTO);
+    AuditRecord auditRecordDTOToAuditRecord(AuditRecordDto auditRecordDTO);
 }

@@ -3,7 +3,7 @@ package org.slavbx.productcatalog.controller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.UserDTO;
+import org.slavbx.productcatalog.dto.UserDto;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,7 +44,7 @@ class UserControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /users - создание нового пользователя")
     void createUser() throws Exception {
-        UserDTO newUser = UserDTO.builder()
+        UserDto newUser = UserDto.builder()
                 .name("NewUser1")
                 .email("newuser1@example.com")
                 .password("password123")
@@ -63,7 +63,7 @@ class UserControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /users - обновление пользователя")
     void updateUser() throws Exception {
-        UserDTO updateUser = UserDTO.builder()
+        UserDto updateUser = UserDto.builder()
                 .name("slav")
                 .email("slav@slav.com")
                 .password("newPassword")
@@ -83,7 +83,7 @@ class UserControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /users/{email}/reset-password - сброс пароля пользователя")
     void resetPassword() throws Exception {
-        UserDTO newUser = UserDTO.builder()
+        UserDto newUser = UserDto.builder()
                 .name("NewUser")
                 .email("newuser@example.com")
                 .password("password123")

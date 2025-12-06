@@ -6,11 +6,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
-import org.slavbx.productcatalog.dto.UserDTO;
+import org.slavbx.productcatalog.dto.UserDto;
 import org.slavbx.productcatalog.mapper.UserMapper;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.security.AuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +38,7 @@ public class AuthController {
     })
     @PostMapping("/signin")
     @Auditable(action = "Авторизация")
-    public ResponseEntity<String> signIn(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> signIn(@RequestBody UserDto userDTO) {
         validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);

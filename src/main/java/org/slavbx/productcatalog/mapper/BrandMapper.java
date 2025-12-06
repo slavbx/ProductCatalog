@@ -2,7 +2,7 @@ package org.slavbx.productcatalog.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.slavbx.productcatalog.dto.BrandDTO;
+import org.slavbx.productcatalog.dto.BrandDto;
 import org.slavbx.productcatalog.model.Brand;
 
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
 public interface BrandMapper {
     BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);
 
-    BrandDTO brandToBrandDTO(Brand brand);
+    BrandDto brandToBrandDto(Brand brand);
 
-    List<BrandDTO> brandsToBrandDTOs(List<Brand> brands);
+    List<BrandDto> brandsToBrandDtos(List<Brand> brands);
 
-    Brand brandDTOToBrand(BrandDTO brandDTO);
+    Brand brandDtoToBrand(BrandDto brandDTO);
 }

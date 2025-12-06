@@ -3,7 +3,7 @@ package org.slavbx.productcatalog.controller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.CategoryDTO;
+import org.slavbx.productcatalog.dto.CategoryDto;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,7 +43,7 @@ class CategoryControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /categories - создание новой категории")
     void createCategory() throws Exception {
-        CategoryDTO newCategory = CategoryDTO.builder()
+        CategoryDto newCategory = CategoryDto.builder()
                 .name("NewCategory")
                 .desc("New category description")
                 .build();
@@ -63,7 +63,7 @@ class CategoryControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /categories - обновление категории")
     void updateCategory() throws Exception {
-        CategoryDTO updateCategory = CategoryDTO.builder()
+        CategoryDto updateCategory = CategoryDto.builder()
                 .name("Electronics")
                 .desc("Updated category description")
                 .build();
@@ -81,7 +81,7 @@ class CategoryControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("DELETE /categories/{name} - получение категории по имени")
     void deleteCategory() throws Exception {
-        CategoryDTO toDeleteCategory = CategoryDTO.builder()
+        CategoryDto toDeleteCategory = CategoryDto.builder()
                 .name("toDelete")
                 .desc("Категория для удаления")
                 .build();

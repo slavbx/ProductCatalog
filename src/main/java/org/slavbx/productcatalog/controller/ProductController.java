@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
-import org.slavbx.productcatalog.dto.ProductDTO;
+import org.slavbx.productcatalog.dto.ProductDto;
 import org.slavbx.productcatalog.mapper.ProductMapper;
 import org.slavbx.productcatalog.model.Product;
 import org.slavbx.productcatalog.security.AuthenticationService;
@@ -12,7 +12,6 @@ import org.slavbx.productcatalog.service.BrandService;
 import org.slavbx.productcatalog.service.CategoryService;
 import org.slavbx.productcatalog.service.ProductService;
 import org.slavbx.productcatalog.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +40,7 @@ public class ProductController {
     @GetMapping
     @Operation(summary = "Get all user products")
     @Auditable(action = "Получение всех товаров пользователя")
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         List<Product> products = productService.findAllProductsByUser(authService.getCurrentUser());
         return productMapper.productsToProductDTOs(products);
     }
@@ -49,7 +48,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @Operation(summary = "Get product by id")
     @Auditable(action = "Получение товара по id")
-    public ProductDTO getProductById(@PathVariable Long id) {
+    public ProductDto getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
         return productMapper.productToProductDTO(product);
     }
@@ -57,7 +56,7 @@ public class ProductController {
     @GetMapping("/name/{name}")
     @Operation(summary = "Get product by name")
     @Auditable(action = "Получение товара по name")
-    public ProductDTO getProductByName(@PathVariable String name) {
+    public ProductDto getProductByName(@PathVariable String name) {
         Product product = productService.getProductByName(name);
         return productMapper.productToProductDTO(product);
     }
@@ -65,7 +64,7 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "Create product")
     @Auditable(action = "Создание товара")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDTO) {
         validationUtil.validate(productDTO);
 
         Product product = productMapper.productDTOToProduct(productDTO);
@@ -75,15 +74,15 @@ public class ProductController {
         product.setCreateDate(LocalDate.now());
 
         Product createdProduct = productService.create(product);
-        ProductDTO createdProductDTO = productMapper.productToProductDTO(createdProduct);
+        ProductDto createdProductDto = productMapper.productToProductDTO(createdProduct);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProductDto);
     }
 
     @PutMapping
     @Operation(summary = "Update product")
     @Auditable(action = "Сохранение товара")
-    public ProductDTO updateProduct(@RequestBody ProductDTO productDTO) {
+    public ProductDto updateProduct(@RequestBody ProductDto productDTO) {
         validationUtil.validate(productDTO);
 
         Product product = productMapper.productDTOToProduct(productDTO);

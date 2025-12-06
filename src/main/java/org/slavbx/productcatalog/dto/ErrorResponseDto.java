@@ -8,7 +8,7 @@ import lombok.Builder;
  */
 @Builder
 @Schema(description = "DTO для передачи ошибки")
-public record ErrorResponseDTO(
+public record ErrorResponseDto(
     String message
 ) {
 }
