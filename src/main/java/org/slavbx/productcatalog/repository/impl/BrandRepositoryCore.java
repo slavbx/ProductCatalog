@@ -1,7 +1,9 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +13,11 @@ import java.util.Optional;
 /**
  * Реализация репозитория для хранения брендов {@link BrandRepository}
  */
+@Repository
+@RequiredArgsConstructor
 public class BrandRepositoryCore implements BrandRepository {
-    private Long lastId;
+    private Long lastId = 0L;
     private final Map<Long, Brand> brands = new HashMap<>();
-
-    public BrandRepositoryCore() {
-        this.lastId = 0L;
-    }
 
     @Override
     public Brand save(Brand brand) {

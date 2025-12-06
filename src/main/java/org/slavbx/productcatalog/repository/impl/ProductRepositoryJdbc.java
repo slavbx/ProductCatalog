@@ -1,11 +1,14 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.RepositoryException;
 import org.slavbx.productcatalog.model.*;
-import org.slavbx.productcatalog.repository.DatabaseProvider;
 import org.slavbx.productcatalog.repository.ProductRepository;
 import org.slavbx.productcatalog.repository.SqlQueries;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +17,15 @@ import java.util.Optional;
 /**
  * Реализация репозитория для хранения товаров
  */
+@Primary
+@Repository
+@RequiredArgsConstructor
 public class ProductRepositoryJdbc implements ProductRepository {
+    private final DataSource dataSource;
+
     @Override
     public Product save(Product product) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(SqlQueries.INSERT_PRODUCT);
             prep.setString(1, product.getName());
             prep.setString(2, product.getDesc());
@@ -36,7 +44,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
 
     @Override
     public void deleteByName(String name) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.DELETE_PRODUCT_BY_NAME);
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
@@ -47,7 +55,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
 
     @Override
     public Optional<Product> findByName(String name) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_PRODUCT_BY_NAME);
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -62,7 +70,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
 
     @Override
     public Optional<Product> findById(Long id) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_PRODUCT_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -83,7 +91,7 @@ public class ProductRepositoryJdbc implements ProductRepository {
     @Override
     public List<Product> findAllProductsByUser(User user) throws RepositoryException {
         List<Product> products = new ArrayList<>();
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_PRODUCTS);
             preparedStatement.setLong(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();

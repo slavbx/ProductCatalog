@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pc_db
+    username: slav
+    password: slav
+    driver-class-name: org.postgresql.Driver
+    current-schema: pc_schema
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/pc_db
+    user: slav
+    password: slav
+    default-schema: pc_service_schema
+    change-log: /db/changelog/changelog-master.yaml

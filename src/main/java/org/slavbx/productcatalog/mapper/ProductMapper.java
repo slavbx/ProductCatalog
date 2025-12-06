@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Маппер для преобразования между сущностью Product и DTO
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 

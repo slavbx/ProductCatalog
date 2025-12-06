@@ -1,7 +1,9 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +13,11 @@ import java.util.Optional;
 /**
  * Реализация репозитория для хранения категорий {@link CategoryRepository}
  */
+@Repository
+@RequiredArgsConstructor
 public class CategoryRepositoryCore implements CategoryRepository {
-    private Long lastId;
+    private Long lastId = 0L;
     private final Map<Long, Category> categories = new HashMap<>();
-
-    public CategoryRepositoryCore() {
-        this.lastId = 0L;
-    }
 
     @Override
     public Category save(Category category) {

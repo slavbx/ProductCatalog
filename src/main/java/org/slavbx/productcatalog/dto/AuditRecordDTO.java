@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  * Data Transfer Object для передачи записи аудита
  */
 @Builder
+@Schema(description = "DTO для передачи записи аудита")
 public record AuditRecordDTO (
         @NotBlank(message = "Email is required")
         String email,

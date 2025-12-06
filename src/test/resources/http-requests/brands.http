@@ -6,7 +6,7 @@ POST http://localhost:8080/productcatalog/brands
 Content-Type: application/json; charset=utf-8
 
 {
-  "name": "Moto-Guzzi",
+  "name": "Moto-Guzzi1",
   "desc": "Производитель мотоциклов"
 }
 

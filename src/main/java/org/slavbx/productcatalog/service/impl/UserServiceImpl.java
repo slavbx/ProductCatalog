@@ -8,6 +8,7 @@ import org.slavbx.productcatalog.model.Level;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
 import org.slavbx.productcatalog.service.UserService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * получение пользователей по id и email, создание пользователей,
  * а также получение текущего пользователя
  */
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;

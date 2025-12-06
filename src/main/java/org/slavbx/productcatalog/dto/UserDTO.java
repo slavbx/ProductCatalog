@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import javax.validation.constraints.Email;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
  * Data Transfer Object для передачи пользователя
  */
 @Builder
+@Schema(description = "DTO для передачи пользователя")
 public record UserDTO (
         @NotBlank(message = "Email is required")
         @Email(message = "Email should be valid")

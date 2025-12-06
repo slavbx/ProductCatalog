@@ -1,11 +1,14 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.RepositoryException;
 import org.slavbx.productcatalog.model.AuditRecord;
 import org.slavbx.productcatalog.repository.AuditRepository;
-import org.slavbx.productcatalog.repository.DatabaseProvider;
 import org.slavbx.productcatalog.repository.SqlQueries;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,11 +21,15 @@ import java.util.Optional;
 /**
  * Реализация репозитория для хранения записей аудита
  */
+@Primary
+@Repository
+@RequiredArgsConstructor
 public class AuditRepositoryJdbc implements AuditRepository {
+    private final DataSource dataSource;
 
     @Override
     public AuditRecord save(AuditRecord auditRecord) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement prep = connection.prepareStatement(SqlQueries.INSERT_AUDIT_RECORD);
             prep.setString(1, auditRecord.getEmail());
             prep.setString(2, auditRecord.getAction());
@@ -37,7 +44,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
     @Override
     public List<AuditRecord> findByEmail(String email) throws RepositoryException {
         List<AuditRecord> records = new ArrayList<>();
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_AUDIT_RECORDS_BY_EMAIL);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -52,7 +59,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
 
     @Override
     public Optional<AuditRecord> findById(Long id) throws RepositoryException {
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_AUDIT_RECORD_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -73,7 +80,7 @@ public class AuditRepositoryJdbc implements AuditRepository {
     @Override
     public List<AuditRecord> findByDateRange(LocalDateTime startDate, LocalDateTime endDate) throws RepositoryException {
         List<AuditRecord> records = new ArrayList<>();
-        try (Connection connection = DatabaseProvider.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQueries.SELECT_AUDIT_RECORDS_BY_DATE_RANGE);
             preparedStatement.setObject(1, startDate);
             preparedStatement.setObject(2, endDate);
