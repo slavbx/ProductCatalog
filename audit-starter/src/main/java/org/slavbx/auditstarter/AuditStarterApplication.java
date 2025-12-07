@@ -1,13 +1,13 @@
-package org.slavbx.productcatalog;
+package org.slavbx.auditstarter;
 
-import org.slavbx.auditstarter.annotation.EnableAudition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@EnableAudition
 @SpringBootApplication
-public class Application {
+public class AuditStarterApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AuditStarterApplication.class, args);
     }
+
 }

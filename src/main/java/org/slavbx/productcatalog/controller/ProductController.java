@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.logstarter.annotation.Loggable;
-import org.slavbx.productcatalog.annotation.Auditable;
+import org.slavbx.auditstarter.annotation.Auditable;
 
 import org.slavbx.productcatalog.dto.ProductDto;
 import org.slavbx.productcatalog.mapper.ProductMapper;

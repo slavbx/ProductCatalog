@@ -1,10 +1,10 @@
-package org.slavbx.productcatalog.service.impl;
+package org.slavbx.auditstarter.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.slavbx.productcatalog.exception.NotFoundException;
-import org.slavbx.productcatalog.model.AuditRecord;
-import org.slavbx.productcatalog.repository.AuditRepository;
-import org.slavbx.productcatalog.service.AuditService;
+import org.slavbx.auditstarter.exception.NotFoundException;
+import org.slavbx.auditstarter.model.AuditRecord;
+import org.slavbx.auditstarter.repository.AuditRepository;
+import org.slavbx.auditstarter.service.AuditService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

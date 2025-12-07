@@ -6,8 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.logstarter.annotation.Loggable;
-import org.slavbx.productcatalog.annotation.Auditable;
-
+import org.slavbx.auditstarter.annotation.Auditable;
 import org.slavbx.productcatalog.dto.UserDto;
 import org.slavbx.productcatalog.mapper.UserMapper;
 import org.slavbx.productcatalog.model.User;

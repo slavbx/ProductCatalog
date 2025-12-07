@@ -1,7 +1,7 @@
-package org.slavbx.productcatalog.service;
+package org.slavbx.auditstarter.service;
 
-import org.slavbx.productcatalog.exception.NotFoundException;
-import org.slavbx.productcatalog.model.AuditRecord;
+import org.slavbx.auditstarter.exception.NotFoundException;
+import org.slavbx.auditstarter.model.AuditRecord;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.slavbx.productcatalog.model;
+package org.slavbx.auditstarter.model;
 
 import jakarta.persistence.*;
 import lombok.*;
