@@ -2,6 +2,7 @@ package org.slavbx.productcatalog.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.dto.CategoryDto;
@@ -12,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -27,7 +28,6 @@ public class CategoryController {
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
-    private final ValidationUtil validationUtil;
 
     @GetMapping
     @Operation(summary = "Get all categories")
@@ -57,7 +57,7 @@ public class CategoryController {
     @Operation(summary = "Create category")
     @Auditable(action = "Создание категории")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid CategoryDto categoryDTO) {
-        validationUtil.validate(categoryDTO);
+        //validationUtil.validate(categoryDTO);
 
         Category category = categoryMapper.categoryDtoToCategory(categoryDTO);
         Category createdCategory = categoryService.create(category);
@@ -70,7 +70,7 @@ public class CategoryController {
     @Operation(summary = "Update category")
     @Auditable(action = "Сохранение категории")
     public CategoryDto updateCategory(@RequestBody @Valid CategoryDto categoryDTO) {
-        validationUtil.validate(categoryDTO);
+        //validationUtil.validate(categoryDTO);
 
         Category category = categoryMapper.categoryDtoToCategory(categoryDTO);
         Category resultCategory = categoryService.save(category);
@@ -80,6 +80,7 @@ public class CategoryController {
     @DeleteMapping("/{name}")
     @Operation(summary = "Delete category")
     @Auditable(action = "Удаление категории")
+    @Transactional
     public ResponseEntity<String> deleteCategory(@PathVariable String name) {
         categoryService.deleteByName(name);
         return ResponseEntity.ok("Successfully deleted");

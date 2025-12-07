@@ -28,7 +28,6 @@ public class AuthController {
 
     private final AuthenticationService authService;
     private final UserMapper userMapper;
-    private final ValidationUtil validationUtil;
 
     @Operation(summary = "User sign in")
     @ApiResponses(value = {
@@ -39,7 +38,7 @@ public class AuthController {
     @PostMapping("/signin")
     @Auditable(action = "Авторизация")
     public ResponseEntity<String> signIn(@RequestBody UserDto userDTO) {
-        validationUtil.validate(userDTO);
+        //validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);
         authService.signIn(user);

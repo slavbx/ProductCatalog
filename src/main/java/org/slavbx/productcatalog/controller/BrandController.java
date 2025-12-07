@@ -2,6 +2,7 @@ package org.slavbx.productcatalog.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.dto.BrandDto;
 import org.slavbx.productcatalog.mapper.BrandMapper;
@@ -25,22 +26,19 @@ public class BrandController {
 
     private final BrandService brandService;
     private final BrandMapper brandMapper;
-    private final ValidationUtil validationUtil;
 
     @Autowired
     public BrandController(BrandService brandService,
-                           BrandMapper brandMapper,
-                           ValidationUtil validationUtil) {
+                           BrandMapper brandMapper) {
         this.brandService = brandService;
         this.brandMapper = brandMapper;
-        this.validationUtil = validationUtil;
     }
 
     @GetMapping
     @Operation(summary = "Get all brands")
     @Auditable(action = "Получение всех брендов")
     public List<BrandDto> getAllBrands() {
-        List<Brand> brands = brandService.findAllBrands();
+        List<Brand> brands = brandService.findAll();
         return brandMapper.brandsToBrandDtos(brands);
 
     }
@@ -65,7 +63,7 @@ public class BrandController {
     @Operation(summary = "Create brand")
     @Auditable(action = "Создание бренда")
     public ResponseEntity<BrandDto> createBrand(@RequestBody BrandDto brandDTO) {
-        validationUtil.validate(brandDTO);
+        //validationUtil.validate(brandDTO);
 
         Brand brand = brandMapper.brandDtoToBrand(brandDTO);
         Brand createdBrand = brandService.create(brand);
@@ -77,7 +75,7 @@ public class BrandController {
     @Operation(summary = "Update brand")
     @Auditable(action = "Сохранение бренда")
     public BrandDto updateBrand(@RequestBody BrandDto brandDTO) {
-        validationUtil.validate(brandDTO);
+        //validationUtil.validate(brandDTO);
         Brand brand = brandMapper.brandDtoToBrand(brandDTO);
         Brand resultBrand = brandService.save(brand);
         return brandMapper.brandToBrandDto(resultBrand);
@@ -86,6 +84,7 @@ public class BrandController {
     @DeleteMapping("/{name}")
     @Operation(summary = "Delete brand")
     @Auditable(action = "Удаление бренда")
+    @Transactional
     public ResponseEntity<String> deleteBrand(@PathVariable String name) {
         brandService.deleteByName(name);
         return ResponseEntity.ok("Successfully deleted");

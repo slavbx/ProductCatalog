@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,12 +15,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
+@Entity
+@Table(name = "audit")
 public class AuditRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "audit_seq")
+    @SequenceGenerator(name = "audit_seq", sequenceName = "audit_id_seq", allocationSize = 1)
     @EqualsAndHashCode.Exclude
     private Long id;
+
+    @Column(nullable = false)
     @EqualsAndHashCode.Include
     private String email;
+
+    @Column(nullable = false)
     private String action;
+
+    @Column(name = "datetime")
     private LocalDateTime dateTime;
 
     @Override

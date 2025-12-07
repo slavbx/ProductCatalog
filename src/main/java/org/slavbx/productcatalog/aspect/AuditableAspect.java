@@ -9,7 +9,6 @@ import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.security.AuthenticationService;
 import org.slavbx.productcatalog.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;

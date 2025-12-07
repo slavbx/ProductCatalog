@@ -3,6 +3,7 @@ package org.slavbx.productcatalog.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.AlreadyExistsException;
 import org.slavbx.productcatalog.exception.NotFoundException;
+import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.model.Product;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.ProductRepository;
@@ -40,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product save(Product product) {
+        Product existedProduct = getProductByName(product.getName());
+        if (existedProduct != null) {
+            product.setId(existedProduct.getId());
+        }
         return productRepository.save(product);
     }
 
@@ -60,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
         if (productRepository.existsByName(product.getName())) {
             throw new AlreadyExistsException("Product with name: " + product.getName() + " already exists");
         }
-        return save(product);
+        return productRepository.save(product);
     }
 
     @Override
@@ -76,6 +81,6 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> findAllProductsByUser(User user) {
-        return productRepository.findAllProductsByUser(user);
+        return productRepository.findAllProductsBySeller(user);
     }
 }

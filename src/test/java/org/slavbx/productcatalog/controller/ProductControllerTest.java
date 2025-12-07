@@ -1,19 +1,33 @@
 package org.slavbx.productcatalog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.dto.ProductDto;
 import org.slavbx.productcatalog.dto.UserDto;
 import org.springframework.http.MediaType;
+import org.junit.jupiter.api.Test;
+import org.slavbx.productcatalog.TestContainerConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
+@Import(TestContainerConfig.class)
+@SpringBootTest
 @DisplayName("Тестирование ProductController")
-class ProductControllerTest extends TestContainerConfig {
+class ProductControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("GET /products - получение всех товаров")
@@ -107,7 +121,7 @@ class ProductControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("DELETE /products/{name} - получение товара по имени")
+    @DisplayName("DELETE /products/{name} - удаление товара по имени")
     void deleteProduct() throws Exception {
         ProductDto toDeleteProduct = ProductDto.builder()
                 .name("toDelete")

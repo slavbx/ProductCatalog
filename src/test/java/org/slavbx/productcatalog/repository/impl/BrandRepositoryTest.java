@@ -1,19 +1,24 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@Import(TestContainerConfig.class)
+@SpringBootTest
+@Transactional
 @DisplayName("Тестирование BrandRepository")
-class BrandRepositoryJdbcTest extends TestContainerConfig {
+class BrandRepositoryTest {
     @Autowired
     BrandRepository brandRepository;
     Brand brand = Brand.builder().name("Zalman").desc("Производитель систем охлаждения и корпусов").build();
@@ -53,7 +58,7 @@ class BrandRepositoryJdbcTest extends TestContainerConfig {
 
     @Test
     @DisplayName("Проверка получения всех брендов")
-    void findAllBrands() {
-        assertThat(brandRepository.findAllBrands().size()).isGreaterThan(1);
+    void findAll() {
+        assertThat(brandRepository.findAll().size()).isGreaterThan(1);
     }
 }

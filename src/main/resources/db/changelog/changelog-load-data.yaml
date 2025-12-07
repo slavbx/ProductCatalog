@@ -131,3 +131,32 @@ databaseChangeLog:
           separator: ','
           tableName: products
           schemaName: pc_schema
+- changeSet:
+    id: 1729329610709-5
+    author: slavbx
+    changes:
+      - loadData:
+          columns:
+            - column:
+                header: id
+                name: id
+                type: NUMERIC
+            - column:
+                header: email
+                name: email
+                type: STRING
+            - column:
+                header: action
+                name: action
+                type: STRING
+            - column:
+                header: datetime
+                name: datetime
+                type: STRING
+          commentLineStartsWith: '#'
+          encoding: UTF-8
+          file: db/changelog/data/audit.csv
+          quotchar: '"'
+          separator: ','
+          tableName: audit
+          schemaName: pc_schema

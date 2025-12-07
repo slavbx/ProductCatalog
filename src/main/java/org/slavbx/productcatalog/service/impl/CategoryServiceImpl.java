@@ -3,6 +3,7 @@ package org.slavbx.productcatalog.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.exception.AlreadyExistsException;
 import org.slavbx.productcatalog.exception.NotFoundException;
+import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
 import org.slavbx.productcatalog.service.CategoryService;
@@ -41,6 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category save(Category category) {
+        Category existedCategory = getCategoryByName(category.getName());
+        if (existedCategory != null) {
+            category.setId(existedCategory.getId());
+        }
         return categoryRepository.save(category);
     }
 
@@ -61,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRepository.existsByName(category.getName())) {
             throw new AlreadyExistsException("Category with name: " + category.getName() + " already exists");
         }
-        return save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -77,6 +82,6 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<Category> findAllCategories() {
-        return categoryRepository.findAllCategories();
+        return categoryRepository.findAll();
     }
 }

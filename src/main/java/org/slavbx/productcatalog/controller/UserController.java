@@ -26,7 +26,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-    private final ValidationUtil validationUtil;
 
     @GetMapping
     @Operation(summary = "Get all users")
@@ -56,7 +55,7 @@ public class UserController {
     @Operation(summary = "Create user")
     @Auditable(action = "Создание пользователя")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDTO) {
-        validationUtil.validate(userDTO);
+        //validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);
         User createdUser = userService.create(user);
@@ -69,7 +68,7 @@ public class UserController {
     @Operation(summary = "Update user")
     @Auditable(action = "Обновление пользователя")
     public UserDto updateUser(@RequestBody UserDto userDTO) {
-        validationUtil.validate(userDTO);
+        //validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);
         User resultUser = userService.save(user);

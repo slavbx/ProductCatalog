@@ -1,20 +1,24 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.Category;
 import org.slavbx.productcatalog.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Import(TestContainerConfig.class)
+@SpringBootTest
+@Transactional
 @DisplayName("Тестирование CategoryRepository")
-class CategoryRepositoryJdbcTest extends TestContainerConfig {
+class CategoryRepositoryTest {
     @Autowired
     CategoryRepository categoryRepository;
     Category category = Category.builder().name("Electronics").desc("Электронные устройства и аксессуары").build();
@@ -62,7 +66,7 @@ class CategoryRepositoryJdbcTest extends TestContainerConfig {
 
     @Test
     @DisplayName("Проверка получения всех категорий")
-    void findAllCategories() {
-        assertThat(categoryRepository.findAllCategories().size()).isGreaterThan(1);
+    void findAll() {
+        assertThat(categoryRepository.findAll().size()).isGreaterThan(1);
     }
 }

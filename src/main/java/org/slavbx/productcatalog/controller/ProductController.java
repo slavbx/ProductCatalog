@@ -2,6 +2,7 @@ package org.slavbx.productcatalog.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
 import org.slavbx.productcatalog.dto.ProductDto;
@@ -35,7 +36,6 @@ public class ProductController {
     private final CategoryService categoryService;
     private final BrandService brandService;
     private final ProductMapper productMapper;
-    private final ValidationUtil validationUtil;
 
     @GetMapping
     @Operation(summary = "Get all user products")
@@ -65,7 +65,7 @@ public class ProductController {
     @Operation(summary = "Create product")
     @Auditable(action = "Создание товара")
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDTO) {
-        validationUtil.validate(productDTO);
+        //validationUtil.validate(productDTO);
 
         Product product = productMapper.productDTOToProduct(productDTO);
         product.setSeller(userService.getUserByEmail(productDTO.sellerEmail()));
@@ -83,7 +83,7 @@ public class ProductController {
     @Operation(summary = "Update product")
     @Auditable(action = "Сохранение товара")
     public ProductDto updateProduct(@RequestBody ProductDto productDTO) {
-        validationUtil.validate(productDTO);
+        //validationUtil.validate(productDTO);
 
         Product product = productMapper.productDTOToProduct(productDTO);
         product.setSeller(userService.getUserByEmail(productDTO.sellerEmail()));
@@ -101,6 +101,7 @@ public class ProductController {
     @DeleteMapping("/{name}")
     @Operation(summary = "Delete product")
     @Auditable(action = "Удаление товара")
+    @Transactional
     public ResponseEntity<String> deleteProduct(@PathVariable String name) {
         productService.deleteByName(name);
         return ResponseEntity.ok("Successfully deleted");

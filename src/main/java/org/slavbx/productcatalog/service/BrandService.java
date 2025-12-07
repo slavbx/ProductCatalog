@@ -69,5 +69,5 @@ public interface BrandService {
      *
      * @return список всех зарегистрированных брендов.
      */
-    List<Brand> findAllBrands();
+    List<Brand> findAll();
 }

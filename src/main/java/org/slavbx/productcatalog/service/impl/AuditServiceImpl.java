@@ -53,6 +53,6 @@ public class AuditServiceImpl implements AuditService {
      */
     @Override
     public List<AuditRecord> findAuditRecordsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return auditRepository.findByDateRange(startDate, endDate);
+        return auditRepository.findByDateTimeBetween(startDate, endDate);
     }
 }

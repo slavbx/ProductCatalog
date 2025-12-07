@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
@@ -10,14 +11,22 @@ import lombok.*;
 @Setter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
+@Entity
+@Table(name = "categories")
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categories_seq")
+    @SequenceGenerator(name = "categories_seq", sequenceName = "categories_id_seq", allocationSize = 1)
     @EqualsAndHashCode.Exclude
     private Long id;
-    @NonNull
+
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(name = "description")
     @EqualsAndHashCode.Exclude
     private String desc;
 

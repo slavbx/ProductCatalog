@@ -1,6 +1,7 @@
 package org.slavbx.productcatalog.repository;
 
 import org.slavbx.productcatalog.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,12 +9,7 @@ import java.util.Optional;
 /**
  * Репозиторий для хранения сущности пользователя {@link User}
  */
-public interface UserRepository {
-    /**
-     * Сохраняет пользователя
-     * @param user объект пользователя для сохранения
-     */
-    User save(User user);
+public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Удаляет пользователя по указанному email
@@ -30,20 +26,7 @@ public interface UserRepository {
 
     Optional<User> findByName(String name);
 
-    /**
-     * Находит пользователя по id
-     * @param id идентификатор для поиска пользователя
-     * @return объект Optional, содержащий найденного пользователя, или пустой объект, если пользователь не найден
-     */
-    Optional<User> findById(Long id);
-
     boolean existsByName(String name);
 
     boolean existsByEmail(String email);
-
-    /**
-     * Находит всех существующих пользователей
-     * @return список пользователей
-     */
-    List<User> findAllUsers();
 }

@@ -1,17 +1,15 @@
 package org.slavbx.productcatalog.repository;
 
 import org.slavbx.productcatalog.model.AuditRecord;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface AuditRepository {
-    /**
-     * Сохраняет запись аудита
-     * @param auditRecord объект записи аудита для сохранения
-     */
-    AuditRecord save(AuditRecord auditRecord);
+@Repository
+public interface AuditRepository extends JpaRepository<AuditRecord, Long> {
 
     /**
      * Находит записи аудита по указанному email
@@ -19,13 +17,6 @@ public interface AuditRepository {
      * @return список записей аудита
      */
     List<AuditRecord> findByEmail(String email);
-
-    /**
-     * Находит запись аудита по id
-     * @param id идентификатор для поиска записи аудита
-     * @return объект Optional, содержащий найденную запись аудита, или пустой объект, если запись не найдена
-     */
-    Optional<AuditRecord> findById(Long id);
 
     /**
      * Существуют ли записи аудита для email
@@ -40,5 +31,5 @@ public interface AuditRepository {
      * @param endDate конец периода
      * @return список записей аудита за период
      */
-    List<AuditRecord> findByDateRange(LocalDateTime startDate, LocalDateTime endDate);
+    List<AuditRecord> findByDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate);
 }

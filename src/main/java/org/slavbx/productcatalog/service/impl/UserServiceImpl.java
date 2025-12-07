@@ -1,9 +1,9 @@
 package org.slavbx.productcatalog.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.slavbx.productcatalog.exception.AlreadyExistsException;
 import org.slavbx.productcatalog.exception.NotFoundException;
+import org.slavbx.productcatalog.model.Brand;
 import org.slavbx.productcatalog.model.Level;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
@@ -44,6 +44,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User save(User user) {
+        User existedUser = getUserByEmail(user.getEmail());
+        if (existedUser != null) {
+            user.setId(existedUser.getId());
+        }
         if (user.getLevel() == null) user.setLevel(Level.USER);
         return userRepository.save(user);
     }
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistsException("User with name: " + user.getName() + " already exists");
         }
         if (user.getLevel() == null) user.setLevel(Level.USER);
-        return save(user);
+        return userRepository.save(user);
     }
 
     /**
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> findAllUsers() {
-        return userRepository.findAllUsers();
+        return userRepository.findAll();
     }
 
     /**

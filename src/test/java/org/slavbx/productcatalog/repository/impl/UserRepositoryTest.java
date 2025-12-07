@@ -1,5 +1,6 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
@@ -7,15 +8,18 @@ import org.slavbx.productcatalog.model.Level;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Import(TestContainerConfig.class)
+@SpringBootTest
+@Transactional
 @DisplayName("Тестирование UserRepository")
-class UserRepositoryJdbcTest extends TestContainerConfig {
+class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
     User user = User.builder().email("slav@slav.com").level(Level.USER).name("slav").password("slav").build();
@@ -78,7 +82,7 @@ class UserRepositoryJdbcTest extends TestContainerConfig {
 
     @Test
     @DisplayName("Проверка получения всех пользователей")
-    void findAllUsers() {
-        assertThat(userRepository.findAllUsers().size()).isGreaterThan(1);
+    void findAll() {
+        assertThat(userRepository.findAll().size()).isGreaterThan(1);
     }
 }

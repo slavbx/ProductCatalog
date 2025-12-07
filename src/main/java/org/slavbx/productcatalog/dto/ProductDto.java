@@ -3,7 +3,7 @@ package org.slavbx.productcatalog.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
 /**

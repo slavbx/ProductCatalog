@@ -1,13 +1,14 @@
 package org.slavbx.productcatalog.repository.impl;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.model.*;
 import org.slavbx.productcatalog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,8 +16,11 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Import(TestContainerConfig.class)
+@SpringBootTest
+@Transactional
 @DisplayName("Тестирование ProductRepository")
-class ProductRepositoryJdbcTest extends TestContainerConfig {
+class ProductRepositoryTest {
     @Autowired
     ProductRepository productRepository;
     User user = User.builder()
@@ -86,7 +90,7 @@ class ProductRepositoryJdbcTest extends TestContainerConfig {
 
     @Test
     @DisplayName("Проверка получения всех продуктов пользователя")
-    void findAllProductsByUser() {
-        assertThat(productRepository.findAllProductsByUser(user).size()).isGreaterThan(1);
+    void findAllProductsBySeller() {
+        assertThat(productRepository.findAllProductsBySeller(user).size()).isGreaterThan(1);
     }
 }

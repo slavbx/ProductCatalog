@@ -1,16 +1,15 @@
 package org.slavbx.productcatalog.repository;
 
 import org.slavbx.productcatalog.model.Brand;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface BrandRepository {
-    /**
-     * Сохраняет бренд
-     * @param brand объект бренда для сохранения
-     */
-    Brand save(Brand brand);
+@Repository
+public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     /**
      * Удаляет бренд по указанному названию
@@ -25,12 +24,6 @@ public interface BrandRepository {
      */
     Optional<Brand> findByName(String name);
 
-    /**
-     * Находит бренд по id
-     * @param id идентификатор для поиска бренда
-     * @return объект Optional, содержащий найденный бренд, или пустой объект, если бренд не найден
-     */
-    Optional<Brand> findById(Long id);
 
     /**
      * Существует ли бренд под именем
@@ -38,10 +31,4 @@ public interface BrandRepository {
      * @return boolean, означающий существование бренда
      */
     boolean existsByName(String name);
-
-    /**
-     * Находит все бренды
-     * @return список брендов
-     */
-    List<Brand> findAllBrands();
 }

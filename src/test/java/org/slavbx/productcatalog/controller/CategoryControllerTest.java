@@ -1,16 +1,30 @@
 package org.slavbx.productcatalog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
 import org.slavbx.productcatalog.dto.CategoryDto;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
+@Import(TestContainerConfig.class)
+@SpringBootTest
 @DisplayName("Тестирование CategoryController")
-class CategoryControllerTest extends TestContainerConfig {
+class CategoryControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("GET /categories - получение всех категорий")
@@ -49,7 +63,7 @@ class CategoryControllerTest extends TestContainerConfig {
                 .build();
 
         mockMvc.perform(post("/categories")
-                        .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newCategory)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("NewCategory"))
@@ -79,7 +93,7 @@ class CategoryControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("DELETE /categories/{name} - получение категории по имени")
+    @DisplayName("DELETE /categories/{name} - удаление категории по имени")
     void deleteCategory() throws Exception {
         CategoryDto toDeleteCategory = CategoryDto.builder()
                 .name("toDelete")
