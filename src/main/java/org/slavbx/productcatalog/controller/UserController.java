@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
+import org.slavbx.productcatalog.annotation.Loggable;
 import org.slavbx.productcatalog.dto.UserDto;
 import org.slavbx.productcatalog.mapper.UserMapper;
 import org.slavbx.productcatalog.model.User;
@@ -19,6 +20,7 @@ import java.util.List;
  * Поддерживает получение, создание, обновление и сброс пароля пользователей.
  */
 @Tag(name = "UserController", description = "API for working with users")
+@Loggable
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

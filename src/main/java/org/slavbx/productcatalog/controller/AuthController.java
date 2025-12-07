@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
+import org.slavbx.productcatalog.annotation.Loggable;
 import org.slavbx.productcatalog.dto.UserDto;
 import org.slavbx.productcatalog.mapper.UserMapper;
 import org.slavbx.productcatalog.model.User;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Поддерживает авторизацию и завершение сеанса пользователя.
  */
 @Tag(name = "AuthController", description = "API for authentication and authorization")
+@Loggable
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

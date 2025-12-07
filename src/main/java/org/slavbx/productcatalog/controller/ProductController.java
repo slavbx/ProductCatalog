@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slavbx.productcatalog.annotation.Auditable;
+import org.slavbx.productcatalog.annotation.Loggable;
 import org.slavbx.productcatalog.dto.ProductDto;
 import org.slavbx.productcatalog.mapper.ProductMapper;
 import org.slavbx.productcatalog.model.Product;
@@ -25,6 +26,7 @@ import java.util.List;
  * Поддерживает получение, создание, обновление и удаление товаров.
  */
 @Tag(name = "ProductController", description = "API for working with products")
+@Loggable
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor

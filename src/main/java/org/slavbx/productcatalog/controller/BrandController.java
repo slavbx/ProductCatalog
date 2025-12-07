@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import org.slavbx.productcatalog.annotation.Auditable;
+import org.slavbx.productcatalog.annotation.Loggable;
 import org.slavbx.productcatalog.dto.BrandDto;
 import org.slavbx.productcatalog.mapper.BrandMapper;
 import org.slavbx.productcatalog.model.Brand;
@@ -20,6 +21,7 @@ import java.util.List;
  * Поддерживает получение, создание, обновление и удаление брендов.
  */
 @Tag(name = "BrandController", description = "API for working with brands")
+@Loggable
 @RestController
 @RequestMapping("/brands")
 public class BrandController {
