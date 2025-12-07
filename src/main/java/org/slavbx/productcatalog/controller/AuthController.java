@@ -5,12 +5,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.slavbx.productcatalog.annotation.Auditable;
-import org.slavbx.productcatalog.dto.UserDTO;
+import org.slavbx.logstarter.annotation.Loggable;
+import org.slavbx.auditstarter.annotation.Auditable;
+import org.slavbx.productcatalog.dto.UserDto;
 import org.slavbx.productcatalog.mapper.UserMapper;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.security.AuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Поддерживает авторизацию и завершение сеанса пользователя.
  */
 @Tag(name = "AuthController", description = "API for authentication and authorization")
+@Loggable
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -29,7 +30,6 @@ public class AuthController {
 
     private final AuthenticationService authService;
     private final UserMapper userMapper;
-    private final ValidationUtil validationUtil;
 
     @Operation(summary = "User sign in")
     @ApiResponses(value = {
@@ -39,8 +39,8 @@ public class AuthController {
     })
     @PostMapping("/signin")
     @Auditable(action = "Авторизация")
-    public ResponseEntity<String> signIn(@RequestBody UserDTO userDTO) {
-        validationUtil.validate(userDTO);
+    public ResponseEntity<String> signIn(@RequestBody UserDto userDTO) {
+        //validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);
         authService.signIn(user);

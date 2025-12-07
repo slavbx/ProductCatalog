@@ -3,12 +3,12 @@ package org.slavbx.productcatalog.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.slavbx.productcatalog.annotation.Auditable;
-import org.slavbx.productcatalog.dto.UserDTO;
+import org.slavbx.logstarter.annotation.Loggable;
+import org.slavbx.auditstarter.annotation.Auditable;
+import org.slavbx.productcatalog.dto.UserDto;
 import org.slavbx.productcatalog.mapper.UserMapper;
 import org.slavbx.productcatalog.model.User;
 import org.slavbx.productcatalog.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +20,7 @@ import java.util.List;
  * Поддерживает получение, создание, обновление и сброс пароля пользователей.
  */
 @Tag(name = "UserController", description = "API for working with users")
+@Loggable
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -27,12 +28,11 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-    private final ValidationUtil validationUtil;
 
     @GetMapping
     @Operation(summary = "Get all users")
     @Auditable(action = "Получение всех пользователей")
-    public List<UserDTO> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         List<User> users = userService.findAllUsers();
         return userMapper.usersToUserDTOs(users);
     }
@@ -40,7 +40,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Get user by id")
     @Auditable(action = "Получение пользователя по id")
-    public UserDTO getUserById(@PathVariable Long id) {
+    public UserDto getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         return userMapper.userToUserDTO(user);
     }
@@ -48,7 +48,7 @@ public class UserController {
     @GetMapping("/email/{email}")
     @Operation(summary = "Get user by email")
     @Auditable(action = "Получение пользователя по email")
-    public UserDTO getUserByEmail(@PathVariable String email) {
+    public UserDto getUserByEmail(@PathVariable String email) {
         User user = userService.getUserByEmail(email);
         return userMapper.userToUserDTO(user);
     }
@@ -56,21 +56,21 @@ public class UserController {
     @PostMapping
     @Operation(summary = "Create user")
     @Auditable(action = "Создание пользователя")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        validationUtil.validate(userDTO);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDTO) {
+        //validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);
         User createdUser = userService.create(user);
-        UserDTO createdUserDTO = userMapper.userToUserDTO(createdUser);
+        UserDto createdUserDto = userMapper.userToUserDTO(createdUser);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDto);
     }
 
     @PutMapping
     @Operation(summary = "Update user")
     @Auditable(action = "Обновление пользователя")
-    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
-        validationUtil.validate(userDTO);
+    public UserDto updateUser(@RequestBody UserDto userDTO) {
+        //validationUtil.validate(userDTO);
 
         User user = userMapper.userDTOToUser(userDTO);
         User resultUser = userService.save(user);

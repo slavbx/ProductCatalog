@@ -1,16 +1,30 @@
 package org.slavbx.productcatalog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
+import org.slavbx.productcatalog.dto.UserDto;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.UserDTO;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
+@Import(TestContainerConfig.class)
+@SpringBootTest
 @DisplayName("Тестирование UserController")
-class UserControllerTest extends TestContainerConfig {
+class UserControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("GET /users - получение всех пользователей")
@@ -44,7 +58,7 @@ class UserControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /users - создание нового пользователя")
     void createUser() throws Exception {
-        UserDTO newUser = UserDTO.builder()
+        UserDto newUser = UserDto.builder()
                 .name("NewUser1")
                 .email("newuser1@example.com")
                 .password("password123")
@@ -63,7 +77,7 @@ class UserControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /users - обновление пользователя")
     void updateUser() throws Exception {
-        UserDTO updateUser = UserDTO.builder()
+        UserDto updateUser = UserDto.builder()
                 .name("slav")
                 .email("slav@slav.com")
                 .password("newPassword")
@@ -83,7 +97,7 @@ class UserControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /users/{email}/reset-password - сброс пароля пользователя")
     void resetPassword() throws Exception {
-        UserDTO newUser = UserDTO.builder()
+        UserDto newUser = UserDto.builder()
                 .name("NewUser")
                 .email("newuser@example.com")
                 .password("password123")

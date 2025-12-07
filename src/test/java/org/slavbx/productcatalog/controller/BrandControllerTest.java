@@ -1,17 +1,32 @@
 package org.slavbx.productcatalog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MediaType;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.BrandDTO;
+import org.slavbx.productcatalog.dto.BrandDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
+@Import(TestContainerConfig.class)
+@SpringBootTest
 @DisplayName("Тестирование BrandController")
-class BrandControllerTest extends TestContainerConfig {
+class BrandControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("GET /brands - получение всех брендов")
@@ -45,7 +60,7 @@ class BrandControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /brands - создание нового бренда")
     void createBrand() throws Exception {
-        BrandDTO newBrand = BrandDTO.builder()
+        BrandDto newBrand = BrandDto.builder()
                 .name("Corsair")
                 .desc("Производитель оперативной памяти и блоков питания")
                 .build();
@@ -65,7 +80,7 @@ class BrandControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /brands - обновление бренда")
     void updateBrand() throws Exception {
-        BrandDTO updateBrand = BrandDTO.builder()
+        BrandDto updateBrand = BrandDto.builder()
                 .name("Zalman")
                 .desc("Обновленное описание производителя")
                 .build();
@@ -81,14 +96,14 @@ class BrandControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("DELETE /brands/{name} - получение бренда по имени")
+    @DisplayName("DELETE /brands/{name} - удаление бренда по имени")
     void deleteBrand() throws Exception {
-        BrandDTO toDeleteBrand = BrandDTO.builder()
+        BrandDto toDeleteBrand = BrandDto.builder()
                 .name("toDelete")
                 .desc("Бренд для удаления")
                 .build();
         mockMvc.perform(post("/brands")
-                .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(toDeleteBrand))).andExpect(status().isCreated());
         mockMvc.perform(delete("/brands/toDelete"))
                 .andExpect(status().isOk())

@@ -1,16 +1,30 @@
 package org.slavbx.productcatalog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.CategoryDTO;
-import org.springframework.http.MediaType;
+import org.slavbx.productcatalog.dto.CategoryDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
+@Import(TestContainerConfig.class)
+@SpringBootTest
 @DisplayName("Тестирование CategoryController")
-class CategoryControllerTest extends TestContainerConfig {
+class CategoryControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("GET /categories - получение всех категорий")
@@ -43,13 +57,13 @@ class CategoryControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /categories - создание новой категории")
     void createCategory() throws Exception {
-        CategoryDTO newCategory = CategoryDTO.builder()
+        CategoryDto newCategory = CategoryDto.builder()
                 .name("NewCategory")
                 .desc("New category description")
                 .build();
 
         mockMvc.perform(post("/categories")
-                        .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newCategory)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("NewCategory"))
@@ -63,7 +77,7 @@ class CategoryControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /categories - обновление категории")
     void updateCategory() throws Exception {
-        CategoryDTO updateCategory = CategoryDTO.builder()
+        CategoryDto updateCategory = CategoryDto.builder()
                 .name("Electronics")
                 .desc("Updated category description")
                 .build();
@@ -79,9 +93,9 @@ class CategoryControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("DELETE /categories/{name} - получение категории по имени")
+    @DisplayName("DELETE /categories/{name} - удаление категории по имени")
     void deleteCategory() throws Exception {
-        CategoryDTO toDeleteCategory = CategoryDTO.builder()
+        CategoryDto toDeleteCategory = CategoryDto.builder()
                 .name("toDelete")
                 .desc("Категория для удаления")
                 .build();

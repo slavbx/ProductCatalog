@@ -9,3 +9,4 @@ databaseChangeLog:
               SELECT setval('pc_schema.brands_id_seq', COALESCE(MAX(id), 7)) FROM pc_schema.brands;
               SELECT setval('pc_schema.categories_id_seq', COALESCE(MAX(id), 5)) FROM pc_schema.categories;
               SELECT setval('pc_schema.products_id_seq', COALESCE(MAX(id), 5)) FROM pc_schema.products;
+              SELECT setval('pc_schema.audit_id_seq', COALESCE(MAX(id), 1)) FROM pc_schema.products;

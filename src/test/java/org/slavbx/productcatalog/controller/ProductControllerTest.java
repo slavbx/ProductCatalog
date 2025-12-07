@@ -1,24 +1,38 @@
 package org.slavbx.productcatalog.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
+import org.slavbx.productcatalog.dto.ProductDto;
+import org.slavbx.productcatalog.dto.UserDto;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.slavbx.productcatalog.TestContainerConfig;
-import org.slavbx.productcatalog.dto.ProductDTO;
-import org.slavbx.productcatalog.dto.UserDTO;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
+@Import(TestContainerConfig.class)
+@SpringBootTest
 @DisplayName("Тестирование ProductController")
-class ProductControllerTest extends TestContainerConfig {
+class ProductControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("GET /products - получение всех товаров")
     void getAllProducts() throws Exception {
-        UserDTO userDTO = UserDTO.builder()
+        UserDto userDTO = UserDto.builder()
                 .email("slav@slav.com")
                 .password("slav")
                 .build();
@@ -48,7 +62,7 @@ class ProductControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("POST /products - создание нового товара")
     void createProduct() throws Exception {
-        ProductDTO newProduct = ProductDTO.builder()
+        ProductDto newProduct = ProductDto.builder()
                 .name("NewProduct")
                 .desc("New product description")
                 .price(BigDecimal.valueOf(200.0))
@@ -72,7 +86,7 @@ class ProductControllerTest extends TestContainerConfig {
     @Test
     @DisplayName("PUT /products - обновление товара")
     void updateProduct() throws Exception {
-        ProductDTO product = ProductDTO.builder()
+        ProductDto product = ProductDto.builder()
                 .name("NewProduct1")
                 .desc("New product description")
                 .price(BigDecimal.valueOf(200.0))
@@ -85,7 +99,7 @@ class ProductControllerTest extends TestContainerConfig {
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                 .content(objectMapper.writeValueAsString(product)));
 
-        ProductDTO updateProduct = ProductDTO.builder()
+        ProductDto updateProduct = ProductDto.builder()
                 .name("NewProduct1")
                 .desc("Updated product description")
                 .price(BigDecimal.valueOf(201.0))
@@ -107,9 +121,9 @@ class ProductControllerTest extends TestContainerConfig {
     }
 
     @Test
-    @DisplayName("DELETE /products/{name} - получение товара по имени")
+    @DisplayName("DELETE /products/{name} - удаление товара по имени")
     void deleteProduct() throws Exception {
-        ProductDTO toDeleteProduct = ProductDTO.builder()
+        ProductDto toDeleteProduct = ProductDto.builder()
                 .name("toDelete")
                 .desc("Товар для удаления")
                 .price(BigDecimal.valueOf(50.0))

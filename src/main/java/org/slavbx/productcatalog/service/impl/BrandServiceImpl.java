@@ -42,6 +42,10 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Brand save(Brand brand) {
+        Brand existedBrand = getBrandByName(brand.getName());
+        if (existedBrand != null) {
+            brand.setId(existedBrand.getId());
+        }
         return brandRepository.save(brand);
     }
 
@@ -62,7 +66,7 @@ public class BrandServiceImpl implements BrandService {
         if (brandRepository.existsByName(brand.getName())) {
             throw new AlreadyExistsException("Brand with name: " + brand.getName() + " already exists");
         }
-        return save(brand);
+        return brandRepository.save(brand);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class BrandServiceImpl implements BrandService {
      * {@inheritDoc}
      */
     @Override
-    public List<Brand> findAllBrands() {
-        return brandRepository.findAllBrands();
+    public List<Brand> findAll() {
+        return brandRepository.findAll();
     }
 }
