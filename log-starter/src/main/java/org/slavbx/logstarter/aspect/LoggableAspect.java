@@ -1,4 +1,4 @@
-package org.slavbx.productcatalog.aspect;
+package org.slavbx.logstarter.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggableAspect {
 
-    @Pointcut("within(@org.slavbx.productcatalog.annotation.Loggable *) && execution(* * (..))")
+    @Pointcut("within(@org.slavbx.logstarter.annotation.Loggable *) && execution(* * (..))")
     public void annotatedByLoggable() {}
 
     @Around("annotatedByLoggable()")

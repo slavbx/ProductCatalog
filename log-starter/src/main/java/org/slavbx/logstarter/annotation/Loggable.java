@@ -1,4 +1,4 @@
-package org.slavbx.productcatalog.annotation;
+package org.slavbx.logstarter.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

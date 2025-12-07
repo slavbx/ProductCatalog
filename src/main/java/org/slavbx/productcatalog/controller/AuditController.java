@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.slavbx.logstarter.annotation.Loggable;
 import org.slavbx.productcatalog.dto.AuditRecordDto;
 import org.slavbx.productcatalog.mapper.AuditRecordMapper;
 import org.slavbx.productcatalog.model.AuditRecord;
@@ -22,6 +23,7 @@ import java.util.List;
  * Поддерживает получение записей аудита по ID, email и диапазону дат.
  */
 @Tag(name = "AuditController", description = "API for audit records management")
+@Loggable
 @RestController
 @RequestMapping("/audit")
 @RequiredArgsConstructor
